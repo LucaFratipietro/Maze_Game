@@ -1,7 +1,10 @@
-﻿public class Program
+﻿namespace Maze
 {
-    public static void Main(string[] args)
+    public class Program
     {
-        Console.WriteLine("hey");
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("hey");
+        }
     }
 }
