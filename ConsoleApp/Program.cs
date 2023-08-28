@@ -1,4 +1,6 @@
-﻿namespace Maze
+﻿using MazeFromFile;
+
+namespace Maze
 {
     public class Program
     {

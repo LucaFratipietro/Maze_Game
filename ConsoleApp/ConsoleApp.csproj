@@ -4,6 +4,12 @@
     <ProjectReference Include="..\Maze\Maze.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="MazeFromFile">
+      <HintPath>..\MazeFromFile.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net6.0</TargetFramework>
