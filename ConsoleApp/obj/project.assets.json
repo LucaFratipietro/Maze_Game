@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "Maze/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/Maze.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Maze.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Maze/1.0.0": {
+      "type": "project",
+      "path": "../Maze/Maze.csproj",
+      "msbuildProject": "../Maze/Maze.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "Maze >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Dev\\.nuget\\packages": {}
@@ -33,7 +52,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\fratipietroassignment1\\Maze\\Maze.csproj": {
+              "projectPath": "C:\\fratipietroassignment1\\Maze\\Maze.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

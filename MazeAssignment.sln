@@ -3,6 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{DDCBD489-53D2-4541-A264-87E349407979}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze", "Maze\Maze.csproj", "{7CFF24DD-D955-4123-ABCB-55456F43D94B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeTests", "MazeTests\MazeTests.csproj", "{E7E08360-68B2-4958-B12D-3840FEC95510}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -10,5 +16,19 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DDCBD489-53D2-4541-A264-87E349407979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDCBD489-53D2-4541-A264-87E349407979}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDCBD489-53D2-4541-A264-87E349407979}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDCBD489-53D2-4541-A264-87E349407979}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CFF24DD-D955-4123-ABCB-55456F43D94B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CFF24DD-D955-4123-ABCB-55456F43D94B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CFF24DD-D955-4123-ABCB-55456F43D94B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CFF24DD-D955-4123-ABCB-55456F43D94B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7E08360-68B2-4958-B12D-3840FEC95510}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7E08360-68B2-4958-B12D-3840FEC95510}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7E08360-68B2-4958-B12D-3840FEC95510}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7E08360-68B2-4958-B12D-3840FEC95510}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
