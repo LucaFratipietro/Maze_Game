@@ -26,9 +26,12 @@
         public void CreateMap()
         {
             Direction[,] directionGrid = _provider.CreateMap();
+            
             //Determine width and height of maze
             this.Width = (directionGrid.GetLength(1) * 2) + 1;
             this.Height = (directionGrid.GetLength(0) * 2) + 1;
+
+            //Set all blocks
         }
 
         public void CreateMap(int width, int height)
