@@ -2,15 +2,15 @@
 {
     public class MapVector : IMapVector
     {
-        public bool IsValid => throw new NotImplementedException();
+        public bool IsValid { get; private set; }
 
-        public int X => throw new NotImplementedException();
+        public int X { get; private set; }
 
-        public int Y => throw new NotImplementedException();
+        public int Y { get; private set; }
 
         public bool InsideBoundary(int width, int height)
         {
-            throw new NotImplementedException();
+           throw new NotImplementedException();
         }
 
         public double Magnitude()

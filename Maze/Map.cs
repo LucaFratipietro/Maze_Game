@@ -2,21 +2,33 @@
 {
     public class Map : IMap
     {
-        public MapVector Goal => throw new NotImplementedException();
 
-        public int Height => throw new NotImplementedException();
+        //IMapProvider field
+        private IMapProvider _provider;
 
-        public bool IsGameFinished => throw new NotImplementedException();
+        public Map(IMapProvider mapProvider)
+        {
+            this._provider = mapProvider;
+        }
 
-        public Block[,] MapGrid => throw new NotImplementedException();
+        public MapVector Goal { get; private set; }
 
-        public IPlayer Player => throw new NotImplementedException();
+        public int Height { get; private set; }
 
-        public int Width => throw new NotImplementedException();
+        public bool IsGameFinished { get; private set; }
+
+        public Block[,] MapGrid { get; private set; }
+
+        public IPlayer Player { get; private set; }
+
+        public int Width { get; private set; }
 
         public void CreateMap()
         {
-            throw new NotImplementedException();
+            Direction[,] directionGrid = _provider.CreateMap();
+            //Determine width and height of maze
+            this.Width = (directionGrid.GetLength(1) * 2) + 1;
+            this.Height = (directionGrid.GetLength(0) * 2) + 1;
         }
 
         public void CreateMap(int width, int height)
