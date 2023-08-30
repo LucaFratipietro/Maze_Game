@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\fratipietroassignment1\\Maze\\Maze.csproj": {}
+    "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj": {}
   },
   "projects": {
-    "C:\\fratipietroassignment1\\Maze\\Maze.csproj": {
+    "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\fratipietroassignment1\\Maze\\Maze.csproj",
+        "projectUniqueName": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj",
         "projectName": "Maze",
-        "projectPath": "C:\\fratipietroassignment1\\Maze\\Maze.csproj",
+        "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj",
         "packagesPath": "C:\\Dev\\.nuget\\packages",
-        "outputPath": "C:\\fratipietroassignment1\\Maze\\obj\\",
+        "outputPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\2143068\\AppData\\Roaming\\NuGet\\NuGet.Config",
