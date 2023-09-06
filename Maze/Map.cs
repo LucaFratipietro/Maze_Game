@@ -31,7 +31,17 @@
             this.Width = (directionGrid.GetLength(1) * 2) + 1;
             this.Height = (directionGrid.GetLength(0) * 2) + 1;
 
-            //Set all blocks
+            //Set this MapGrid to match Height and width of maze
+            this.MapGrid = new Block[this.Height, this.Width];
+
+            //Set all blocks as solid
+            for (int i = 0; i < this.Height; i++)
+            {
+                for(int j =  0; j < this.Width; j++)
+                {
+                    this.MapGrid[i, j] = Block.Solid;
+                }
+            }
         }
 
         public void CreateMap(int width, int height)

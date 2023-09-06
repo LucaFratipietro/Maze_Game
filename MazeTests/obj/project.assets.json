@@ -6357,11 +6357,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\MazeTests\\MazeTests.csproj",
+      "projectUniqueName": "H:\\fratipietroassignment1\\MazeTests\\MazeTests.csproj",
       "projectName": "MazeTests",
-      "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\MazeTests\\MazeTests.csproj",
+      "projectPath": "H:\\fratipietroassignment1\\MazeTests\\MazeTests.csproj",
       "packagesPath": "C:\\Dev\\.nuget\\packages",
-      "outputPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\MazeTests\\obj\\",
+      "outputPath": "H:\\fratipietroassignment1\\MazeTests\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\2143068\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -6378,8 +6378,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj": {
-              "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj"
+            "H:\\fratipietroassignment1\\Maze\\Maze.csproj": {
+              "projectPath": "H:\\fratipietroassignment1\\Maze\\Maze.csproj"
             }
           }
         }

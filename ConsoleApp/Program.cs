@@ -20,8 +20,23 @@ namespace Maze
 
             map.CreateMap();
 
-            Console.WriteLine(map.Width);
-            Console.WriteLine(map.Height);
+            Console.WriteLine("MAP WIDTH: " + map.Width);
+            Console.WriteLine("MAP HEIGHT: " + map.Height);
+
+            for(int i = 0; i < map.Height; i++) {
+                for(int j =  0; j < map.Width; j++)
+                {
+                    if (map.MapGrid[i,j] == Block.Solid)
+                    {
+                        Console.Write(" S ");
+                    }
+                    else
+                    {
+                        Console.Write(" E ");
+                    }
+                }
+                Console.WriteLine("\n\n");
+            }
             
             
             
