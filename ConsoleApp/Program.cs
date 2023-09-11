@@ -9,7 +9,7 @@ namespace Maze
         {
             //find path to file
             string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string sFile = System.IO.Path.Combine(sCurrentDirectory, @"..\..\..\..\map9x13.txt");
+            string sFile = System.IO.Path.Combine(sCurrentDirectory, @"..\..\..\..\map5x5.txt");
             string sFilePath = Path.GetFullPath(sFile);
 
             IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);
@@ -28,11 +28,11 @@ namespace Maze
                 {
                     if (map.MapGrid[i,j] == Block.Solid)
                     {
-                        Console.Write(" S ");
+                        Console.Write(" O ");
                     }
                     else
                     {
-                        Console.Write(" E ");
+                        Console.Write(" - ");
                     }
                 }
                 Console.WriteLine("\n\n");

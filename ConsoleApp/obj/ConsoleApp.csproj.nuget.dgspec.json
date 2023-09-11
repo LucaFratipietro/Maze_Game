@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "H:\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj": {}
+    "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj": {}
   },
   "projects": {
-    "H:\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj": {
+    "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj",
+        "projectUniqueName": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj",
         "projectName": "ConsoleApp",
-        "projectPath": "H:\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj",
+        "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\ConsoleApp\\ConsoleApp.csproj",
         "packagesPath": "C:\\Dev\\.nuget\\packages",
-        "outputPath": "H:\\fratipietroassignment1\\ConsoleApp\\obj\\",
+        "outputPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\ConsoleApp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\2143068\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -28,8 +28,8 @@
           "net6.0": {
             "targetAlias": "net6.0",
             "projectReferences": {
-              "H:\\fratipietroassignment1\\Maze\\Maze.csproj": {
-                "projectPath": "H:\\fratipietroassignment1\\Maze\\Maze.csproj"
+              "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj": {
+                "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj"
               }
             }
           }
@@ -63,14 +63,14 @@
         }
       }
     },
-    "H:\\fratipietroassignment1\\Maze\\Maze.csproj": {
+    "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "H:\\fratipietroassignment1\\Maze\\Maze.csproj",
+        "projectUniqueName": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj",
         "projectName": "Maze",
-        "projectPath": "H:\\fratipietroassignment1\\Maze\\Maze.csproj",
+        "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\Maze.csproj",
         "packagesPath": "C:\\Dev\\.nuget\\packages",
-        "outputPath": "H:\\fratipietroassignment1\\Maze\\obj\\",
+        "outputPath": "C:\\Users\\2143068\\Desktop\\fratipietroassignment1\\Maze\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\2143068\\AppData\\Roaming\\NuGet\\NuGet.Config",

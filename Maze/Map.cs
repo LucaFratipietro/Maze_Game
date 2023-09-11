@@ -1,4 +1,6 @@
-﻿namespace Maze
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Maze
 {
     public class Map : IMap
     {
@@ -42,6 +44,36 @@
                     this.MapGrid[i, j] = Block.Solid;
                 }
             }
+
+           
+
+             //loop through coloums and rows and using provided map to determine empty spaces?
+
+            int currentHeight = 0;
+            int currentWidth = 0;
+
+            for (int i = 1; i < this.Height; i+= 2)
+            {
+                for(int j = 1; j < this.Width; j+= 2)
+                {
+                    var dir = directionGrid[currentHeight, currentWidth];
+
+                    var isEast = (dir & Direction.E) > 0;
+                    var isSouth = (dir & Direction.S) > 0;
+
+                    if (isEast)
+                    {
+                        this.MapGrid[i, j + 1] = Block.Empty;
+                    }
+                    if (isSouth) 
+                    {
+                        this.MapGrid[i + 1, j] = Block.Empty;
+                    }
+                    currentWidth++;
+                }
+                currentHeight++;
+            }
+
         }
 
         public void CreateMap(int width, int height)
