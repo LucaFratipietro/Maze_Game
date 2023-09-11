@@ -47,16 +47,20 @@ namespace Maze
 
            
 
-             //loop through coloums and rows and using provided map to determine empty spaces?
+            //loop through coloums and rows and uses directionGrid to determine which blocks are empty
 
-            int currentHeight = 0;
-            int currentWidth = 0;
+            int directionMapY = 0;
+            int directionMapX = 0;
 
             for (int i = 1; i < this.Height; i+= 2)
             {
                 for(int j = 1; j < this.Width; j+= 2)
                 {
-                    var dir = directionGrid[currentHeight, currentWidth];
+
+                    //sets this position on the MapGrid as empty
+                    this.MapGrid[i, j] = Block.Empty;
+
+                    var dir = directionGrid[directionMapY, directionMapX];
 
                     var isEast = (dir & Direction.E) > 0;
                     var isSouth = (dir & Direction.S) > 0;
@@ -69,9 +73,11 @@ namespace Maze
                     {
                         this.MapGrid[i + 1, j] = Block.Empty;
                     }
-                    currentWidth++;
+                    directionMapX++;
                 }
-                currentHeight++;
+             
+                directionMapX = 0;
+                directionMapY++;
             }
 
         }
