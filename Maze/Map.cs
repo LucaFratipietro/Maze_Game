@@ -93,11 +93,8 @@ namespace Maze
                 var randY = random.Next(lowerBound, YUpperBound);
                 var randX = random.Next(lowerBound, XUpperBound);
 
-                Console.WriteLine($"VECTOR: {randY} , {randX}");
-
                 if (this.MapGrid[randX,randY] == Block.Empty)
                 {
-                    Console.WriteLine($"ACCEPTED: {randY} , {randX}");
                     legal = true;
                     player.StartX = randX;
                     player.StartY = randY;
@@ -106,6 +103,49 @@ namespace Maze
                 }
                
             }
+
+            //DETERMINE GOAL POSITION
+            // idea, find all spots in directionGrid with only 1 move possible,
+            //and just like do magnitude test from player position to those spots
+
+            int goalX = 0;
+            int goalY = 0;
+            double goalDistance = 0;
+            directionMapX = 0;
+            directionMapY = 0;
+
+            for (int i = 1; i < this.Height; i += 2)
+            {
+                for (int j = 1; j < this.Width; j += 2)
+                {
+
+                    var dir = directionGrid[directionMapY, directionMapX];
+
+                    //if direction can only go W or N, it is a dead end
+                    if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
+                    {
+                        //determine the distance between this point and player position -- maybe stick this somewhere else tbqh
+                        double distance = Math.Sqrt((i - this.Player.StartX) * (i - this.Player.StartX) + (j - this.Player.StartY) * (j - this.Player.StartY));
+                        if (distance > goalDistance)
+                        {
+                            goalDistance = distance;
+                            goalX = i;
+                            goalY = j;
+                        }
+                        
+                    }
+                    
+                    directionMapX++;
+                }
+
+                directionMapX = 0;
+                directionMapY++;
+            }
+
+            this.Goal = new MapVector(goalX, goalY);
+
+
+
 
         }
 
