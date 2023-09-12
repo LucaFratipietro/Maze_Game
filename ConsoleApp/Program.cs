@@ -38,11 +38,20 @@ namespace Maze
                 Console.WriteLine("\n");
             }
 
-            //testing for InsideBoundry
+            //testing for InsideBoundry and MapVector stuff
 
-            MapVector testVector = new MapVector(8, 4);
+            MapVector V1 = new MapVector(8, 4);
+            MapVector V2 = new MapVector(4, 7);
 
-            Console.WriteLine(testVector.InsideBoundary(9, 13));
+            Console.WriteLine(V1.InsideBoundary(9, 13));
+            Console.WriteLine(V1.Magnitude());
+
+            MapVector added = V1 + V2;
+            MapVector sub = V1 - V2;
+
+            Console.WriteLine(added.X + " " + added.Y);
+            Console.WriteLine(sub.X + " " + sub.Y);
+
 
         }
     }

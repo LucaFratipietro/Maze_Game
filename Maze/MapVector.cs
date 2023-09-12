@@ -1,4 +1,6 @@
-﻿namespace Maze
+﻿using System.Reflection.Metadata.Ecma335;
+
+namespace Maze
 {
     public class MapVector : IMapVector
     {
@@ -39,7 +41,26 @@
 
         public double Magnitude()
         {
-            throw new NotImplementedException();
+            return Math.Sqrt((this.X * this.X) + (this.Y * this.Y));
         }
+
+        //adding and subtracting operators
+
+        public static MapVector operator + (MapVector v1, MapVector v2)
+        {
+            int newX, newY;
+            newX = v1.X + v2.X;
+            newY = v1.Y + v2.Y;
+            return new MapVector(newX, newY);
+        }
+
+        public static MapVector operator - (MapVector v1, MapVector v2)
+        {
+            int newX, newY;
+            newX = v1.X - v2.X;
+            newY = v1.Y - v2.Y;
+            return new MapVector(newX, newY);
+        }
+
     }
 }
