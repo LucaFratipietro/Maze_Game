@@ -8,13 +8,17 @@ namespace Maze
 {
     internal class Player : IPlayer
     {
-        public Direction Facing { get; private set; }
 
-        public MapVector Position {  get; private set; }
+        public Player() {
+            this.Facing = Direction.N;
+        }
+        public Direction Facing { get; set; }
 
-        public int StartX {  get; private set; }
+        public MapVector Position {  get; set; }
 
-        public int StartY { get; private set; }
+        public int StartX {  get; set; }
+
+        public int StartY { get; set; }
 
         public float GetRotation()
         {

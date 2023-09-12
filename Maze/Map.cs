@@ -78,6 +78,35 @@ namespace Maze
                 directionMapY++;
             }
 
+            // Generates a Player object and tries to place it in a legal positon
+            //TODO: MAKE THIS A HELPER METHOD CREATEMAP IS GROSS
+
+            Player player = new Player();
+            bool legal = false;
+            int lowerBound = 1;
+            int YUpperBound = this.Width - 1;
+            int XUpperBound = this.Height - 1;
+            var random = new Random();
+     
+            while (!legal)
+            {
+                var randY = random.Next(lowerBound, YUpperBound);
+                var randX = random.Next(lowerBound, XUpperBound);
+
+                Console.WriteLine($"VECTOR: {randY} , {randX}");
+
+                if (this.MapGrid[randX,randY] == Block.Empty)
+                {
+                    Console.WriteLine($"ACCEPTED: {randY} , {randX}");
+                    legal = true;
+                    player.StartX = randX;
+                    player.StartY = randY;
+                    player.Position = new MapVector(randY,randX);
+                    this.Player = player;
+                }
+               
+            }
+
         }
 
         public void CreateMap(int width, int height)
