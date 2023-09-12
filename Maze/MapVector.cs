@@ -62,5 +62,34 @@ namespace Maze
             return new MapVector(newX, newY);
         }
 
+        //scalar multiplication
+
+        public static MapVector operator * (MapVector v, int scalar)
+        {
+            int newX, newY;
+            newX = v.X * scalar;
+            newY = v.Y * scalar;
+            return new MapVector(newX, newY);
+        }
+
+        //Equals Method
+
+        public override bool Equals(object? obj)
+        {
+            if (obj == null) return false;
+            if (!(obj is MapVector)) return false;
+            MapVector v = (MapVector)obj;
+
+            if (this.X == v.X && this.Y == v.Y){return true;}
+            else { return false; }
+            
+        }
+
+        //FOR TESTING 
+        public override string ToString()
+        {
+            return ($"VECTOR: {this.X}, {this.Y}");
+        }
+
     }
 }

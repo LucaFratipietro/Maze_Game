@@ -42,6 +42,7 @@ namespace Maze
 
             MapVector V1 = new MapVector(8, 4);
             MapVector V2 = new MapVector(4, 7);
+            MapVector V3 = new MapVector(4, 7);
 
             Console.WriteLine(V1.InsideBoundary(9, 13));
             Console.WriteLine(V1.Magnitude());
@@ -49,8 +50,18 @@ namespace Maze
             MapVector added = V1 + V2;
             MapVector sub = V1 - V2;
 
-            Console.WriteLine(added.X + " " + added.Y);
-            Console.WriteLine(sub.X + " " + sub.Y);
+            Console.WriteLine(added);
+            Console.WriteLine(sub);
+
+            //scalar 
+
+            Console.WriteLine(V2 * 6);
+
+            //Equals
+
+            Console.WriteLine(V2.Equals(V3));
+            Console.WriteLine(V2.Equals(V1));
+            Console.WriteLine(V2.Equals(map));
 
 
         }
