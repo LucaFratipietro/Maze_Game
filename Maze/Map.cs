@@ -45,9 +45,7 @@ namespace Maze
                 }
             }
 
-           
-
-            //loop through coloums and rows and uses directionGrid to determine which blocks are empty
+            //loops through coloums and rows and uses directionGrid to determine which blocks are empty
 
             int directionMapY = 0;
             int directionMapX = 0;

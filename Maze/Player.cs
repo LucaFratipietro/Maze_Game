@@ -8,13 +8,13 @@ namespace Maze
 {
     internal class Player : IPlayer
     {
-        public Direction Facing => throw new NotImplementedException();
+        public Direction Facing { get; private set; }
 
-        public MapVector Position => throw new NotImplementedException();
+        public MapVector Position {  get; private set; }
 
-        public int StartX => throw new NotImplementedException();
+        public int StartX {  get; private set; }
 
-        public int StartY => throw new NotImplementedException();
+        public int StartY { get; private set; }
 
         public float GetRotation()
         {

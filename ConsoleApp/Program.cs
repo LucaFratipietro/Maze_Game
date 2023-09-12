@@ -32,25 +32,18 @@ namespace Maze
                     }
                     else
                     {
-                        Console.Write(" - ");
+                        Console.Write(" . ");
                     }
                 }
-                Console.WriteLine("\n\n");
+                Console.WriteLine("\n");
             }
-            
-            
-            
-            
-            
-            /*Direction[,] directions = mazeCreator.CreateMap();
-            for(int i = 0; i < directions.GetLength(0); i++)
-            {
-                for(int j = 0; j < directions.GetLength(1); j++)
-                {
-                    Console.Write(directions[i, j].ToString() + " ");
-                }
-                Console.WriteLine(" ");
-            }*/
+
+            //testing for InsideBoundry
+
+            MapVector testVector = new MapVector(8, 4);
+
+            Console.WriteLine(testVector.InsideBoundary(9, 13));
+
         }
     }
 }
