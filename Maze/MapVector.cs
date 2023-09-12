@@ -72,7 +72,7 @@ namespace Maze
             return new MapVector(newX, newY);
         }
 
-        //Equals Method
+        //Override the Equals Method
 
         public override bool Equals(object? obj)
         {
@@ -84,6 +84,16 @@ namespace Maze
             else { return false; }
             
         }
+
+        // implicit casting of Direction to a MapVector TODO
+
+        /*public static implicit operator Direction(MapVector v)
+        {
+            if(v.X > 0 && v.Y == 0)
+            {
+
+            }
+        }*/
 
         //FOR TESTING 
         public override string ToString()
