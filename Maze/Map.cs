@@ -79,7 +79,7 @@ namespace Maze
             }
 
             // Generates a Player object and tries to place it in a legal positon
-            //TODO: MAKE THIS A HELPER METHOD CREATEMAP IS GROSS
+            
 
             Player player = new Player();
             bool legal = false;
@@ -105,8 +105,8 @@ namespace Maze
             }
 
             //DETERMINE GOAL POSITION
-            // idea, find all spots in directionGrid with only 1 move possible,
-            //and just like do magnitude test from player position to those spots
+            //finds all spots in directionGrid with only 1 move possible,
+            //Determines magnitude between that position and player, point with largest magnitude becomes the goal
 
             int goalX = 0;
             int goalY = 0;

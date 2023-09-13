@@ -5,9 +5,10 @@ namespace Maze
     public class MapVector : IMapVector
     {
 
-        public MapVector(int  x, int y)
+        public MapVector(int x, int y)
         {
             this.X = x; this.Y = y;
+    
         }
 
         public bool IsValid { get; private set; }
@@ -34,6 +35,7 @@ namespace Maze
                 return false;
             }
 
+           this.IsValid = true;
            return true;
 
 
@@ -87,13 +89,26 @@ namespace Maze
 
         // implicit casting of Direction to a MapVector TODO
 
-        /*public static implicit operator Direction(MapVector v)
+        public static implicit operator MapVector(Direction direction)
         {
-            if(v.X > 0 && v.Y == 0)
+            if(direction == Direction.N)
             {
-
+                return new MapVector(0, -1);
             }
-        }*/
+            if(direction == Direction.S)
+            {
+                return new MapVector(0, 1);
+            }
+            if (direction == Direction.W)
+            {
+                return new MapVector(-1, 0);
+            }
+            if (direction == Direction.E)
+            {
+                return new MapVector(1, 0);
+            }
+            else return new MapVector(0, 0);
+        }
 
         //FOR TESTING 
         public override string ToString()
