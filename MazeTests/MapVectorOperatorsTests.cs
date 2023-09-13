@@ -27,8 +27,49 @@ namespace Maze.Tests
         public void SubtractOperatorTest()
         {
 
+            //Subtracting two positive vectors
+
             MapVector vectorOne = new MapVector(5, 7);
+            MapVector vectorTwo = new MapVector(2, 9);
+
+            MapVector subtractedVector = vectorOne - vectorTwo;
+
+            Assert.AreEqual(3, subtractedVector.X);
+            Assert.AreEqual(-2, subtractedVector.Y);
+
+            //Subtracting positive vecotr with negative vector
+
+            MapVector vectorNegative = new MapVector(-3, -2);
             
+            subtractedVector = vectorOne - vectorNegative;
+
+            Assert.AreEqual(8, subtractedVector.X);
+            Assert.AreEqual(9, subtractedVector.Y);
+            
+
+        }
+
+        [TestMethod()]
+        public void MultiplicationOperatorTest()
+        {
+
+            //Multiplying by a positive scalar
+
+            MapVector vectorOne = new MapVector(4, 6);
+
+            MapVector multipliedVecotr = vectorOne * 3;
+
+            Assert.AreEqual(12, multipliedVecotr.X);
+            Assert.AreEqual(18, multipliedVecotr.Y);
+
+            //Multiplying by a negative scalar
+
+            MapVector negativeMultiplied = vectorOne * -2;
+
+            Assert.AreEqual(-8, negativeMultiplied.X);
+            Assert.AreEqual(-12, negativeMultiplied.Y);
+
+
 
         }
     }
