@@ -7,8 +7,8 @@ namespace Maze
 
         public MapVector(int x, int y)
         {
-            this.X = x; this.Y = y;
-    
+            this.X = x; 
+            this.Y = y;
         }
 
         public bool IsValid { get; private set; }
