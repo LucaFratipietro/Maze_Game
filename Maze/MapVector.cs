@@ -87,7 +87,7 @@ namespace Maze
             
         }
 
-        // implicit casting of Direction to a MapVector TODO
+        // implicit casting of Direction to a MapVector
 
         public static implicit operator MapVector(Direction direction)
         {
@@ -109,12 +109,5 @@ namespace Maze
             }
             else return new MapVector(0, 0);
         }
-
-        //FOR TESTING 
-        public override string ToString()
-        {
-            return ($"VECTOR: {this.X}, {this.Y}");
-        }
-
     }
 }
