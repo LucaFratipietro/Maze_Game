@@ -81,7 +81,7 @@ namespace Maze
             // Generates a Player object and tries to place it in a legal positon
             
 
-            Player player = new Player();
+            Player player = new Player(this.MapGrid);
             bool legal = false;
             int lowerBound = 1;
             int YUpperBound = this.Width - 1;

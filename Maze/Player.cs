@@ -9,7 +9,7 @@ namespace Maze
     internal class Player : IPlayer
     {
 
-        public Player() {
+        public Player(Block[,] mapGrid) {
             this.Facing = Direction.N;
         }
         public Direction Facing { get; set; }
@@ -19,6 +19,8 @@ namespace Maze
         public int StartX {  get; set; }
 
         public int StartY { get; set; }
+
+        private Block[,] mapGrid;
 
         public float GetRotation()
         {
