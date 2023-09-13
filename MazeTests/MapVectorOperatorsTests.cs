@@ -69,6 +69,45 @@ namespace Maze.Tests
             Assert.AreEqual(-8, negativeMultiplied.X);
             Assert.AreEqual(-12, negativeMultiplied.Y);
 
+        }
+
+        [TestMethod()]
+        public void CastingMapVectorTest()
+        {
+
+            //Casting to North pointing vector
+
+            Direction north = Direction.N;
+            MapVector northVector = (MapVector)north;
+
+            Assert.AreEqual(0, northVector.X);
+            Assert.AreEqual(-1, northVector.Y);
+
+            //Casting to North pointing vector
+
+            Direction south = Direction.S;
+            MapVector southVector = (MapVector)south;
+
+            Assert.AreEqual(0, southVector.X);
+            Assert.AreEqual(1, southVector.Y);
+
+            //Casting to North pointing vector
+
+            Direction west = Direction.W;
+            MapVector westVector = (MapVector)west;
+
+            Assert.AreEqual(-1, westVector.X);
+            Assert.AreEqual(0, westVector.Y);
+
+            //Casting to North pointing vector
+
+            Direction east = Direction.E;
+            MapVector eastVector = (MapVector)east;
+
+            Assert.AreEqual(1, eastVector.X);
+            Assert.AreEqual(0, eastVector.Y);
+
+
 
 
         }
