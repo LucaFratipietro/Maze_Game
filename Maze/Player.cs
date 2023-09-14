@@ -130,8 +130,10 @@ namespace Maze
         //depending on player current facing direction, moves it to the postion on the left
         public void TurnLeft()
         {
-            
-            switch(Facing)
+
+            if (this.Facing == Direction.None) { throw new Exception("Player not currently facing a direction"); }
+
+            switch (Facing)
             {
                 case Direction.N:
                     this.Facing = Direction.W;
@@ -140,7 +142,7 @@ namespace Maze
                     this.Facing = Direction.S;
                     break;
                 case Direction.S:
-                    this.Facing = Direction.W;
+                    this.Facing = Direction.E;
                     break;
                 case Direction.E:
                     this.Facing = Direction.N;

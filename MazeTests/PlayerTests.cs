@@ -86,13 +86,93 @@ namespace Maze.Tests
         [TestMethod()]
         public void TurnLeftTest()
         {
-            Assert.Fail();
+
+            //arrange
+            Block[,] mapGrid = new Block[5, 5];
+            Player player = new Player(mapGrid);
+
+            //if player is facing North
+
+            player.TurnLeft();
+
+            Assert.AreEqual(Direction.W, player.Facing);
+
+            //if player is facing West
+
+            player.Facing = Direction.W;
+            player.TurnLeft();
+
+            Assert.AreEqual(Direction.S, player.Facing);
+
+            //if player is facing South
+
+            player.Facing = Direction.S;
+            player.TurnLeft();
+
+            Assert.AreEqual(Direction.E, player.Facing);
+
+            //if player is facing East
+
+            player.Facing = Direction.E;
+            player.TurnLeft();
+
+            Assert.AreEqual(Direction.N, player.Facing);
+
+            //if player is not facing a direction, should throw excpetion
+
+            try
+            {
+                player.TurnLeft();
+                Assert.Fail("Should have thrown an exception");
+            }
+            catch { };
+
         }
 
         [TestMethod()]
         public void TurnRightTest()
         {
-            Assert.Fail();
+
+            //arrange
+            Block[,] mapGrid = new Block[5, 5];
+            Player player = new Player(mapGrid);
+
+            //if player is facing North
+
+            player.TurnRight();
+
+            Assert.AreEqual(Direction.E, player.Facing);
+
+            //if player is facing West
+
+            player.Facing = Direction.W;
+            player.TurnRight();
+
+            Assert.AreEqual(Direction.N, player.Facing);
+
+            //if player is facing South
+
+            player.Facing = Direction.S;
+            player.TurnRight();
+
+            Assert.AreEqual(Direction.W, player.Facing);
+
+            //if player is facing East
+
+            player.Facing = Direction.E;
+            player.TurnRight();
+
+            Assert.AreEqual(Direction.S, player.Facing);
+
+            //if player is not facing a direction, should throw excpetion
+
+            try
+            {
+                player.TurnRight();
+                Assert.Fail("Should have thrown an exception");
+            }
+            catch { };
+
         }
     }
 }
