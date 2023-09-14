@@ -29,6 +29,8 @@ namespace Maze
         {
             //Assuming that direction N is 0 and turning clockwise
 
+            if (this.Facing == Direction.None) { throw new Exception("Player not currently facing a direction"); }
+
             switch(Facing)
             {
                 case Direction.E:
