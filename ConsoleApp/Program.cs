@@ -1,4 +1,5 @@
 ﻿using MazeFromFile;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
 namespace Maze
@@ -7,54 +8,79 @@ namespace Maze
     {
         public static void Main(string[] args)
         {
-            //find path to file
-            string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string sFile = System.IO.Path.Combine(sCurrentDirectory, @"..\..\..\..\map9x7.txt");
-            string sFilePath = Path.GetFullPath(sFile);
 
-            IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);
+            Console.WriteLine("Welcome to the Map Generator!");
+            Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
-            //pass this to maze.cs later
-
-            Map map = new Map(mazeCreator);
-
-            map.CreateMap();
-
-            Console.WriteLine("MAP WIDTH: " + map.Width);
-            Console.WriteLine("MAP HEIGHT: " + map.Height);
-
-            for (int i = 0; i < map.Height; i++)
+            bool validPath = false;
+            while (!validPath)
             {
-                for (int j = 0; j < map.Width; j++)
+                Console.Write("Map file name here: ");
+                string mapName = Console.ReadLine();
+                if (String.IsNullOrEmpty(mapName))
                 {
-
-                    //Places Player on Map
-                    if (i == map.Player.StartX && j == map.Player.StartY)
-                    {
-                        Console.Write(" P ");
-                        continue;
-                    }
-
-                    //Places Goal on Map
-
-                    if(i == map.Goal.X && j == map.Goal.Y)
-                    {
-                        Console.Write(" G ");
-                        continue;
-                    }
-
-                    if (map.MapGrid[i, j] == Block.Solid)
-                    {
-                        Console.Write(" O ");
-                    }
-                    else
-                    {
-                        Console.Write(" . ");
-                    }
+                    Console.WriteLine("Please actually type something");
+                    continue;
                 }
-                Console.WriteLine("\n");
-            }
+                try
+                {
+                    //find path to file
+                    string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                    string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\{mapName}");
+                    string sFilePath = Path.GetFullPath(sFile);
 
+                    IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);
+                    Console.WriteLine("Map Found! ...Building maze...");
+                    Map map = new Map(mazeCreator);
+                    validPath = true;
+                    map.CreateMap();
+
+                    //uses helper method to print out map
+                    PrintMap(map);
+
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Something went wrong with the path, make sure it is in the base project directory and written properly");
+                    continue;
+                }
+            }
         }
+
+
+            private static void PrintMap(Map map)
+            {
+                for (int i = 0; i < map.Height; i++)
+                {
+                    for (int j = 0; j < map.Width; j++)
+                    {
+
+                        //Places Player on Map
+                        if (i == map.Player.StartX && j == map.Player.StartY)
+                        {
+                            Console.Write(" P ");
+                            continue;
+                        }
+
+                        //Places Goal on Map
+
+                        if (i == map.Goal.X && j == map.Goal.Y)
+                        {
+                            Console.Write(" G ");
+                            continue;
+                        }
+
+                        if (map.MapGrid[i, j] == Block.Solid)
+                        {
+                            Console.Write(" O ");
+                        }
+                        else
+                        {
+                            Console.Write(" . ");
+                        }
+                    }
+                    Console.WriteLine("\n");
+                }
+            }
     }
 }
