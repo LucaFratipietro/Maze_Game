@@ -214,7 +214,7 @@ namespace Maze.Tests
         }
 
         [TestMethod()]
-        public void MoveBackwardFacingNorthTest()
+        public void MoveForwardFacingNorthTest()
         {
 
             //arrange
@@ -225,28 +225,133 @@ namespace Maze.Tests
 
             Player player = new Player(mapGrid);
 
-            //Legal backwards movement from n facing positon
+            //Legal forwards movement from n facing positon
+
+            player.Position = new MapVector(1, 2);
+
+            player.MoveForward();
+
+            Assert.AreEqual(1, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal forwards movment from n facing position
 
             player.Position = new MapVector(1, 1);
 
-            player.MoveBackward();
-
-            Assert.AreEqual(1, player.Position.X);
-            Assert.AreEqual(2, player.Position.Y);
-
-            //illegal backwards movment from n facing position
-
-            player.Position = new MapVector(2, 1);
-
             try
             {
-                player.MoveBackward();
+                player.MoveForward();
                 Assert.Fail("Should have thrown illegal move exception");
             }
             catch
             {
-                Assert.AreEqual(2, player.Position.X);
+                Assert.AreEqual(1, player.Position.X);
                 Assert.AreEqual(1, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveForwardFacingSouthTest()
+        {
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.S;
+
+            //Legal forwards movement from S facing positon
+
+            player.Position = new MapVector(1, 1);
+
+            player.MoveForward();
+
+            Assert.AreEqual(1, player.Position.X);
+            Assert.AreEqual(2, player.Position.Y);
+
+            //illegal forwards movment from S facing position
+
+            player.Position = new MapVector(1, 3);
+
+            try
+            {
+                player.MoveForward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(1, player.Position.X);
+                Assert.AreEqual(3, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveForwardFacingWestTest()
+        {
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.W;
+
+            //Legal forwards movement from W facing positon
+
+            player.Position = new MapVector(3, 1);
+
+            player.MoveForward();
+
+            Assert.AreEqual(2, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal forwards movment from W facing position
+
+            player.Position = new MapVector(1, 1);
+
+            try
+            {
+                player.MoveForward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(1, player.Position.X);
+                Assert.AreEqual(1, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveForwardFacingEastTest()
+        {
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.E;
+
+            //Legal forwards movement from E facing positon
+
+            player.Position = new MapVector(1, 1);
+
+            player.MoveForward();
+
+            Assert.AreEqual(2, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal forwards movment from E facing position
+
+            player.Position = new MapVector(3, 2);
+
+            try
+            {
+                player.MoveForward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(3, player.Position.X);
+                Assert.AreEqual(2, player.Position.Y);
             }
 
         }

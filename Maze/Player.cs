@@ -78,7 +78,7 @@ namespace Maze
             if (this.mapGrid[playerX, playerY] == Block.Solid) {
                 throw new Exception("Illegal Position, current porposed position is Solid");
             }
-            if(!new MapVector(playerX, playerY).InsideBoundary(this.mapGrid.GetLength(1), this.mapGrid.GetLength(0))){
+            if(!new MapVector(playerX, playerY).InsideBoundary(this.mapGrid.GetLength(0), this.mapGrid.GetLength(1))){
                 throw new Exception("Illegal Postion, outside the mapGrid boundary");
             }
             
@@ -117,7 +117,7 @@ namespace Maze
             {
                 throw new Exception("Illegal Position, current porposed position is Solid");
             }
-            if (new MapVector(playerX, playerY).InsideBoundary(this.mapGrid.GetLength(0), this.mapGrid.GetLength(1)))
+            if (!new MapVector(playerX, playerY).InsideBoundary(this.mapGrid.GetLength(0), this.mapGrid.GetLength(1)))
             {
                 throw new Exception("Illegal Postion, outside the mapGrid boundary");
             }
