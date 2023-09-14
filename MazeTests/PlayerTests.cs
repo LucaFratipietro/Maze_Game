@@ -72,15 +72,183 @@ namespace Maze.Tests
         }
 
         [TestMethod()]
-        public void MoveBackwardTest()
+        public void MoveBackwardFacingNorthTest()
         {
-            Assert.Fail();
+
+            //arrange
+            //create a 5x5 mapGrid for testing in reverse U-shape
+            //done in helper method to avoid repeating in other methods
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+
+            //Legal backwards movement from n facing positon
+
+            player.Position = new MapVector(1,1);
+
+            player.MoveBackward();
+
+            Assert.AreEqual(1, player.Position.X);
+            Assert.AreEqual(2, player.Position.Y);
+
+            //illegal backwards movment from n facing position
+
+            player.Position = new MapVector(2, 1);
+
+            try
+            {
+                player.MoveBackward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch {
+                Assert.AreEqual(2, player.Position.X);
+                Assert.AreEqual(1, player.Position.Y);
+            }
+
         }
 
         [TestMethod()]
-        public void MoveForwardTest()
+        public void MoveBackwardFacingSouthTest()
         {
-            Assert.Fail();
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.S;
+
+            //Legal backwards movement from s facing positon
+
+            player.Position = new MapVector(1, 2);
+
+            player.MoveBackward();
+
+            Assert.AreEqual(1, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal backwards movment from s facing position
+
+            player.Position = new MapVector(1, 1);
+
+            try
+            {
+                player.MoveBackward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(1, player.Position.X);
+                Assert.AreEqual(1, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveBackwardFacingWestTest()
+        {
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.W;
+
+            //Legal backwards movement from west facing positon
+
+            player.Position = new MapVector(1, 1);
+
+            player.MoveBackward();
+
+            Assert.AreEqual(2, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal backwards movment from west facing position
+
+            player.Position = new MapVector(1, 2);
+
+            try
+            {
+                player.MoveBackward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(1, player.Position.X);
+                Assert.AreEqual(2, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveBackwardFacingEastTest()
+        {
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+            player.Facing = Direction.E;
+
+            //Legal backwards movement from east facing positon
+
+            player.Position = new MapVector(3, 1);
+
+            player.MoveBackward();
+
+            Assert.AreEqual(2, player.Position.X);
+            Assert.AreEqual(1, player.Position.Y);
+
+            //illegal backwards movment from east facing position
+
+            player.Position = new MapVector(3, 2);
+
+            try
+            {
+                player.MoveBackward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(3, player.Position.X);
+                Assert.AreEqual(2, player.Position.Y);
+            }
+
+        }
+
+        [TestMethod()]
+        public void MoveBackwardFacingNorthTest()
+        {
+
+            //arrange
+            //create a 5x5 mapGrid for testing in reverse U-shape
+            //done in helper method to avoid repeating in other methods
+
+            Block[,] mapGrid = reverseUMapGrid();
+
+            Player player = new Player(mapGrid);
+
+            //Legal backwards movement from n facing positon
+
+            player.Position = new MapVector(1, 1);
+
+            player.MoveBackward();
+
+            Assert.AreEqual(1, player.Position.X);
+            Assert.AreEqual(2, player.Position.Y);
+
+            //illegal backwards movment from n facing position
+
+            player.Position = new MapVector(2, 1);
+
+            try
+            {
+                player.MoveBackward();
+                Assert.Fail("Should have thrown illegal move exception");
+            }
+            catch
+            {
+                Assert.AreEqual(2, player.Position.X);
+                Assert.AreEqual(1, player.Position.Y);
+            }
+
         }
 
         [TestMethod()]
@@ -172,6 +340,25 @@ namespace Maze.Tests
                 Assert.Fail("Should have thrown an exception");
             }
             catch { };
+
+        }
+
+        private Block[,] reverseUMapGrid()
+        {
+
+            Block[,] mapGrid = new Block[5, 5];
+
+            //dear god there must be a better way to do this
+
+            mapGrid[1, 1] = Block.Empty;
+            mapGrid[1, 2] = Block.Empty;
+            mapGrid[1, 3] = Block.Empty;
+            mapGrid[2, 1] = Block.Empty;
+            mapGrid[2, 3] = Block.Empty;
+            mapGrid[3, 1] = Block.Empty;
+            mapGrid[3, 3] = Block.Empty;
+
+            return mapGrid;
 
         }
     }
