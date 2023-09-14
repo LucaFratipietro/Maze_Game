@@ -28,7 +28,7 @@ namespace Maze
         public void CreateMap()
         {
             Direction[,] directionGrid = _provider.CreateMap();
-            
+
             //Determine width and height of maze
             this.Width = (directionGrid.GetLength(1) * 2) + 1;
             this.Height = (directionGrid.GetLength(0) * 2) + 1;
@@ -39,20 +39,35 @@ namespace Maze
             //Set all blocks as solid
             for (int i = 0; i < this.Height; i++)
             {
-                for(int j =  0; j < this.Width; j++)
+                for (int j = 0; j < this.Width; j++)
                 {
                     this.MapGrid[i, j] = Block.Solid;
                 }
             }
 
             //loops through coloums and rows and uses directionGrid to determine which blocks are empty
+            setEmptyBlocks(directionGrid);
 
+            // Generates a Player object and tries to place it in a legal positon
+
+            placePlayer();
+
+            //places a goal sufficiently far away from the player at a dead end
+
+            placeEndGoal(directionGrid);
+
+        }
+
+
+        //takes this class mapGird of Block.Solid and uses the directionGrid of Direction enums to determine which positions should be empty 
+        private void setEmptyBlocks(Direction[,] directionGrid)
+        {
             int directionMapY = 0;
             int directionMapX = 0;
 
-            for (int i = 1; i < this.Height; i+= 2)
+            for (int i = 1; i < this.Height; i += 2)
             {
-                for(int j = 1; j < this.Width; j+= 2)
+                for (int j = 1; j < this.Width; j += 2)
                 {
 
                     //sets this position on the MapGrid as empty
@@ -67,19 +82,21 @@ namespace Maze
                     {
                         this.MapGrid[i, j + 1] = Block.Empty;
                     }
-                    if (isSouth) 
+                    if (isSouth)
                     {
                         this.MapGrid[i + 1, j] = Block.Empty;
                     }
                     directionMapX++;
                 }
-             
+
                 directionMapX = 0;
                 directionMapY++;
             }
+        }
 
+        private void placePlayer()
+        {
             // Generates a Player object and tries to place it in a legal positon
-            
 
             Player player = new Player(this.MapGrid);
             bool legal = false;
@@ -87,32 +104,35 @@ namespace Maze
             int YUpperBound = this.Width - 1;
             int XUpperBound = this.Height - 1;
             var random = new Random();
-     
+
             while (!legal)
             {
                 var randY = random.Next(lowerBound, YUpperBound);
                 var randX = random.Next(lowerBound, XUpperBound);
 
-                if (this.MapGrid[randX,randY] == Block.Empty)
+                if (this.MapGrid[randX, randY] == Block.Empty)
                 {
                     legal = true;
                     player.StartX = randX;
                     player.StartY = randY;
-                    player.Position = new MapVector(randY,randX);
+                    player.Position = new MapVector(randY, randX);
                     this.Player = player;
                 }
-               
+
             }
+        }
 
-            //DETERMINE GOAL POSITION
-            //finds all spots in directionGrid with only 1 move possible,
-            //Determines magnitude between that position and player, point with largest magnitude becomes the goal
 
+        //DETERMINE GOAL POSITION
+        //finds all spots in directionGrid with only 1 move possible,
+        //Determines magnitude between that position and player, point with largest magnitude becomes the goal
+        private void placeEndGoal(Direction[,] directionGrid)
+        {
             int goalX = 0;
             int goalY = 0;
             double goalDistance = 0;
-            directionMapX = 0;
-            directionMapY = 0;
+            int directionMapX = 0;
+            int directionMapY = 0;
 
             for (int i = 1; i < this.Height; i += 2)
             {
@@ -124,7 +144,7 @@ namespace Maze
                     //if direction can only go W or N, it is a dead end
                     if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
                     {
-                        //determine the distance between this point and player position -- maybe stick this somewhere else tbqh
+                        //determine the distance between this point and player position
                         double distance = Math.Sqrt((i - this.Player.StartX) * (i - this.Player.StartX) + (j - this.Player.StartY) * (j - this.Player.StartY));
                         if (distance > goalDistance)
                         {
@@ -132,9 +152,9 @@ namespace Maze
                             goalX = i;
                             goalY = j;
                         }
-                        
+
                     }
-                    
+
                     directionMapX++;
                 }
 
@@ -143,10 +163,6 @@ namespace Maze
             }
 
             this.Goal = new MapVector(goalX, goalY);
-
-
-
-
         }
 
         public void CreateMap(int width, int height)
