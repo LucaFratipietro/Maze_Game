@@ -34,7 +34,7 @@ namespace Maze.Tests
         }
 
         [TestMethod()]
-        public void CreateMap()
+        public void CreateMapTests()
         {
             //arrange moq
 
@@ -76,11 +76,19 @@ namespace Maze.Tests
 
             //Check if player has been place somewhere
 
+            Assert.IsNotNull(testMap.Player.StartY);
+            Assert.IsNotNull(testMap.Player.StartX);
+
+
             //Check if goal was place in either of the two deadend positions
 
-
-
-
+            if((testMap.Goal.X == 3 && testMap.Goal.Y == 1) || (testMap.Goal.X == 3 && testMap.Goal.Y == 3)){
+                //GOAL PLACED IN PROPER POSITION
+            }
+            else
+            {
+                Assert.Fail("Goal was placed in a non-dead end position");
+            }
 
         }
 
