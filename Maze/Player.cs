@@ -124,14 +124,48 @@ namespace Maze
             this.Position = new MapVector(playerX, playerY);
         }
 
+
+        //depending on player current facing direction, moves it to the postion on the left
         public void TurnLeft()
         {
-            throw new NotImplementedException();
+            
+            switch(Facing)
+            {
+                case Direction.N:
+                    this.Facing = Direction.W;
+                    break;
+                case Direction.W:
+                    this.Facing = Direction.S;
+                    break;
+                case Direction.S:
+                    this.Facing = Direction.W;
+                    break;
+                case Direction.E:
+                    this.Facing = Direction.N;
+                    break;
+            }
+
         }
 
+
+        //depending on player current facing direction, moves it to the postion on the right
         public void TurnRight()
         {
-            throw new NotImplementedException();
+            switch (Facing)
+            {
+                case Direction.N:
+                    this.Facing = Direction.E;
+                    break;
+                case Direction.W:
+                    this.Facing = Direction.N;
+                    break;
+                case Direction.S:
+                    this.Facing = Direction.W;
+                    break;
+                case Direction.E:
+                    this.Facing = Direction.S;
+                    break;
+            }
         }
     }
 }
