@@ -54,7 +54,7 @@ namespace Maze
 
             //places a goal sufficiently far away from the player at a dead end
 
-            //placeEndGoal(directionGrid);
+            placeEndGoal(directionGrid);
 
         }
 
@@ -139,7 +139,7 @@ namespace Maze
                 for (int j = 1; j < this.Width; j += 2)
                 {
 
-                    var dir = directionGrid[directionMapY, directionMapX];
+                    var dir = directionGrid[directionMapX, directionMapY];
 
                     //if direction can only go W or N, it is a dead end
                     if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
@@ -149,17 +149,17 @@ namespace Maze
                         if (distance > goalDistance)
                         {
                             goalDistance = distance;
-                            goalX = i;
-                            goalY = j;
+                            goalX = j;
+                            goalY = i;
                         }
 
                     }
 
-                    directionMapX++;
+                    directionMapY++;
                 }
 
-                directionMapX = 0;
-                directionMapY++;
+                directionMapY = 0;
+                directionMapX++;
             }
 
             this.Goal = new MapVector(goalX, goalY);

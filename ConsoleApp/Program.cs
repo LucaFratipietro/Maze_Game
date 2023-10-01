@@ -72,11 +72,11 @@ namespace Maze
 
                         //Places Goal on Map
 
-                        /*if (i == map.Goal.X && j == map.Goal.Y)
+                        if (i == map.Goal.Y && j == map.Goal.X)
                         {
                             Console.Write(" G ");
                             continue;
-                        }*/
+                        }
 
                         if (map.MapGrid[j, i] == Block.Solid)
                         {
