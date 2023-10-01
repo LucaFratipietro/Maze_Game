@@ -66,12 +66,12 @@ namespace Maze.Tests
 
             Assert.AreEqual(testMap.MapGrid[1, 1], Block.Empty);
             Assert.AreEqual(testMap.MapGrid[3, 1], Block.Empty);
-            Assert.AreEqual(testMap.MapGrid[2, 3], Block.Empty);
+            Assert.AreEqual(testMap.MapGrid[1, 3], Block.Empty);
 
             //Check if mapGrid was made empty at certain map positions
 
             Assert.AreEqual(testMap.MapGrid[2, 2], Block.Solid);
-            Assert.AreEqual(testMap.MapGrid[3, 2], Block.Solid);
+            Assert.AreEqual(testMap.MapGrid[1, 4], Block.Solid);
 
 
             //Check if player has been place somewhere
@@ -82,7 +82,7 @@ namespace Maze.Tests
 
             //Check if goal was place in either of the two deadend positions
 
-            if((testMap.Goal.X == 3 && testMap.Goal.Y == 1) || (testMap.Goal.X == 3 && testMap.Goal.Y == 3)){
+            if((testMap.Goal.X == 1 && testMap.Goal.Y == 3) || (testMap.Goal.X == 3 && testMap.Goal.Y == 3)){
                 //GOAL PLACED IN PROPER POSITION
             }
             else
