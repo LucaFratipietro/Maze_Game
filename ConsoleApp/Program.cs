@@ -25,7 +25,7 @@ namespace Maze
                 {
                     //find path to file
                     string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-                    string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\{mapName}");
+                    string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\map5x5.txt");
                     string sFilePath = Path.GetFullPath(sFile);
 
                     IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);

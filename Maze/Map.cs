@@ -145,7 +145,7 @@ namespace Maze
                     if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
                     {
                         //determine the distance between this point and player position
-                        double distance = Math.Sqrt((i - this.Player.StartX) * (i - this.Player.StartX) + (j - this.Player.StartY) * (j - this.Player.StartY));
+                        double distance = Math.Sqrt((j - this.Player.StartX) * (j - this.Player.StartX) + (i - this.Player.StartY) * (i - this.Player.StartY));
                         if (distance > goalDistance)
                         {
                             goalDistance = distance;
