@@ -2,15 +2,19 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 using System.IO;
-using System.Windows.Forms;
+using forms = System.Windows.Forms;
 using MFile = MazeFromFile.MazeFromFile;
 
 namespace MonoGame;
 
 public class MazeGame : Game
 {
-    Texture2D oddish;
+    private Texture2D _oddish;
+    private Texture2D _wall;
+    private Texture2D _path;
+    private Texture2D _goal;
 
     private Map _map;
     private GraphicsDeviceManager _graphics;
@@ -59,15 +63,18 @@ public class MazeGame : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // TODO: use this.Content to load your game content here
+        // Load wall, player, path and goal sprites/content here
 
-        oddish = Content.Load<Texture2D>("oddish");
+        _oddish = Content.Load<Texture2D>("oddish");
+        _wall = Content.Load<Texture2D>("wall");
+        _path = Content.Load<Texture2D>("path");
+        _goal = Content.Load<Texture2D>("goal");
 
     }
 
     protected override void Update(GameTime gameTime)
     {
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == Microsoft.Xna.Framework.Input.ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.Escape))
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
         // TODO: Add your update logic here
@@ -80,10 +87,51 @@ public class MazeGame : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         // TODO: Add your drawing code here
-        _spriteBatch.Begin();
-        _spriteBatch.Draw(oddish, new Vector2(0, 0), Color.CornflowerBlue);
-        _spriteBatch.End();
+        drawMap(gameTime);
 
         base.Draw(gameTime);
+    }
+
+    private void drawMap(GameTime gameTime)
+    {
+
+        //draws the intial map state
+        _spriteBatch.Begin();
+
+        //loop through given MapGrid in map to determine where to draw each sprite
+
+        for (int i = 0; i < _map.Height; i++)
+        {
+            for (int j = 0; j < _map.Width; j++)
+            {
+
+                //Places Player on Map
+                if (i == _map.Player.StartY && j == _map.Player.StartX)
+                {
+                    _spriteBatch.Draw(_oddish, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    continue;
+                }
+
+                //Places Goal on Map
+
+                if (i == _map.Goal.Y && j == _map.Goal.X)
+                {
+                    _spriteBatch.Draw(_goal, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    continue;
+                }
+
+                if (_map.MapGrid[j, i] == Block.Solid)
+                {
+                    _spriteBatch.Draw(_wall, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                }
+                else
+                {
+                    _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                }
+            }
+        }
+
+        _spriteBatch.End();
+
     }
 }
