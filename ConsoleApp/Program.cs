@@ -8,16 +8,7 @@ namespace Maze
     {
         public static void Main(string[] args)
         {
-            string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\map9x7.txt");
-            string sFilePath = Path.GetFullPath(sFile);
-
-            IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);
-            Map map = new Map(mazeCreator);
-            map.CreateMap();
-            PrintMap(map);
-
-            /*Console.WriteLine("Welcome to the Map Generator!");
+            Console.WriteLine("Welcome to the Map Generator!");
             Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
             bool validPath = false;
@@ -52,7 +43,7 @@ namespace Maze
                     Console.WriteLine("Something went wrong with the path, make sure it is in the base project directory and written properly");
                     continue;
                 }
-            }*/
+            }
         }
 
 
