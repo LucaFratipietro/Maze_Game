@@ -8,7 +8,6 @@ namespace Maze
     {
         public static void Main(string[] args)
         {
-
             Console.WriteLine("Welcome to the Map Generator!");
             Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
@@ -56,7 +55,7 @@ namespace Maze
                     {
 
                         //Places Player on Map
-                        if (i == map.Player.StartX && j == map.Player.StartY)
+                        if (i == map.Player.StartY && j == map.Player.StartX)
                         {
                             Console.Write(" P ");
                             continue;
@@ -64,13 +63,13 @@ namespace Maze
 
                         //Places Goal on Map
 
-                        if (i == map.Goal.X && j == map.Goal.Y)
+                        if (i == map.Goal.Y && j == map.Goal.X)
                         {
                             Console.Write(" G ");
                             continue;
                         }
 
-                        if (map.MapGrid[i, j] == Block.Solid)
+                        if (map.MapGrid[j, i] == Block.Solid)
                         {
                             Console.Write(" O ");
                         }

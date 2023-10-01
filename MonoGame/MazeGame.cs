@@ -1,6 +1,8 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Maze;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using MFile = MazeFromFile.MazeFromFile;
 
 namespace MonoGame;
 
@@ -8,6 +10,7 @@ public class MazeGame : Game
 {
     Texture2D oddish;
 
+    private Map _map;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
 
@@ -20,8 +23,9 @@ public class MazeGame : Game
 
     protected override void Initialize()
     {
-        // TODO: Add your initialization logic here
-
+        //player must pick a valid map .txt from their file directory to load
+        var filePath = "";
+        
         base.Initialize();
     }
 
