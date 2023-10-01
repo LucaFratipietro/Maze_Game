@@ -30,16 +30,16 @@ namespace Maze
             Direction[,] directionGrid = _provider.CreateMap();
 
             //Determine width and height of maze
-            this.Width = (directionGrid.GetLength(1) * 2) + 1;
-            this.Height = (directionGrid.GetLength(0) * 2) + 1;
+            this.Width = (directionGrid.GetLength(1) * 2) + 1; // 9
+            this.Height = (directionGrid.GetLength(0) * 2) + 1; // 7
 
             //Set this MapGrid to match Height and width of maze
-            this.MapGrid = new Block[this.Height, this.Width];
+            this.MapGrid = new Block[this.Width, this.Height]; // CHANGE
 
             //Set all blocks as solid
-            for (int i = 0; i < this.Height; i++)
+            for (int i = 0; i < this.Width; i++)
             {
-                for (int j = 0; j < this.Width; j++)
+                for (int j = 0; j < this.Height; j++)
                 {
                     this.MapGrid[i, j] = Block.Solid;
                 }
@@ -54,7 +54,7 @@ namespace Maze
 
             //places a goal sufficiently far away from the player at a dead end
 
-            placeEndGoal(directionGrid);
+            //placeEndGoal(directionGrid);
 
         }
 
@@ -62,8 +62,8 @@ namespace Maze
         //takes this class mapGird of Block.Solid and uses the directionGrid of Direction enums to determine which positions should be empty 
         private void setEmptyBlocks(Direction[,] directionGrid)
         {
-            int directionMapY = 0;
             int directionMapX = 0;
+            int directionMapY = 0;
 
             for (int i = 1; i < this.Height; i += 2)
             {
@@ -71,26 +71,26 @@ namespace Maze
                 {
 
                     //sets this position on the MapGrid as empty
-                    this.MapGrid[i, j] = Block.Empty;
+                    this.MapGrid[j, i] = Block.Empty;
 
-                    var dir = directionGrid[directionMapY, directionMapX];
+                    var dir = directionGrid[directionMapX, directionMapY];
 
                     var isEast = (dir & Direction.E) > 0;
                     var isSouth = (dir & Direction.S) > 0;
 
                     if (isEast)
                     {
-                        this.MapGrid[i, j + 1] = Block.Empty;
+                        this.MapGrid[j + 1, i] = Block.Empty;
                     }
                     if (isSouth)
                     {
-                        this.MapGrid[i + 1, j] = Block.Empty;
+                        this.MapGrid[j, i + 1] = Block.Empty;
                     }
-                    directionMapX++;
+                    directionMapY++;
                 }
 
-                directionMapX = 0;
-                directionMapY++;
+                directionMapY = 0;
+                directionMapX++;
             }
         }
 
@@ -101,8 +101,8 @@ namespace Maze
             Player player = new Player(this.MapGrid);
             bool legal = false;
             int lowerBound = 1;
-            int YUpperBound = this.Width - 1;
-            int XUpperBound = this.Height - 1;
+            int YUpperBound = this.Height - 1;
+            int XUpperBound = this.Width - 1;
             var random = new Random();
 
             while (!legal)

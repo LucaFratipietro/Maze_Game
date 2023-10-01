@@ -8,8 +8,16 @@ namespace Maze
     {
         public static void Main(string[] args)
         {
+            string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\map9x7.txt");
+            string sFilePath = Path.GetFullPath(sFile);
 
-            Console.WriteLine("Welcome to the Map Generator!");
+            IMapProvider mazeCreator = new MazeFromFile.MazeFromFile(sFilePath);
+            Map map = new Map(mazeCreator);
+            map.CreateMap();
+            PrintMap(map);
+
+            /*Console.WriteLine("Welcome to the Map Generator!");
             Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
             bool validPath = false;
@@ -44,7 +52,7 @@ namespace Maze
                     Console.WriteLine("Something went wrong with the path, make sure it is in the base project directory and written properly");
                     continue;
                 }
-            }
+            }*/
         }
 
 
@@ -56,7 +64,7 @@ namespace Maze
                     {
 
                         //Places Player on Map
-                        if (i == map.Player.StartX && j == map.Player.StartY)
+                        if (i == map.Player.StartY && j == map.Player.StartX)
                         {
                             Console.Write(" P ");
                             continue;
@@ -64,13 +72,13 @@ namespace Maze
 
                         //Places Goal on Map
 
-                        if (i == map.Goal.X && j == map.Goal.Y)
+                        /*if (i == map.Goal.X && j == map.Goal.Y)
                         {
                             Console.Write(" G ");
                             continue;
-                        }
+                        }*/
 
-                        if (map.MapGrid[i, j] == Block.Solid)
+                        if (map.MapGrid[j, i] == Block.Solid)
                         {
                             Console.Write(" O ");
                         }
