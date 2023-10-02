@@ -11,7 +11,6 @@ namespace MonoGame;
 
 public class MazeGame : Game
 {
-    private Texture2D _oddish;
     private Texture2D _wall;
     private Texture2D _path;
     private Texture2D _goal;
@@ -54,18 +53,23 @@ public class MazeGame : Game
         IMapProvider mapPro = new MazeFromFile.MazeFromFile(sFilePath);
         _map = new Map(mapPro);
         _map.CreateMap();
+
+        //Pass player object to PlayerSprite
+
+        PlayerSprite playerS = new PlayerSprite(_map.Player);
         
         //when Map is set, start initializing game
         base.Initialize();
+
+        //add player sprite as component to mono game
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        // Load wall, player, path and goal sprites/content here
+        // Load wall, path and goal sprites/content here
 
-        _oddish = Content.Load<Texture2D>("oddish");
         _wall = Content.Load<Texture2D>("wall");
         _path = Content.Load<Texture2D>("path");
         _goal = Content.Load<Texture2D>("goal");
@@ -120,13 +124,6 @@ public class MazeGame : Game
                 else
                 {
                     _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
-                }
-
-                //Places Player on Map
-                if (i == _map.Player.StartY && j == _map.Player.StartX)
-                {
-                    _spriteBatch.Draw(_oddish, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
-                    continue;
                 }
 
             }
