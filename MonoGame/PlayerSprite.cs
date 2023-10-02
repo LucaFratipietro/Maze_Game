@@ -39,9 +39,18 @@ namespace MonoGame
 
             base.LoadContent();
         }
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
         
         public override void Draw(GameTime gameTime)
         {
+
+            _spriteBatch.Begin();
+            _spriteBatch.Draw(_oddish,new Vector2(this._player.StartX * 32, this._player.StartY * 32), Color.White);
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
 
