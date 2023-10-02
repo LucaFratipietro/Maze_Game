@@ -8,19 +8,19 @@
     "net6.0": []
   },
   "packageFolders": {
-    "C:\\Users\\lucaf\\.nuget\\packages\\": {}
+    "C:\\Dev\\.nuget\\packages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\lucaf\\Desktop\\Dawson\\p5\\fratipietro-assignment-2\\Maze\\Maze.csproj",
+      "projectUniqueName": "C:\\Users\\2143068\\Desktop\\fratipietro-assignment-2\\Maze\\Maze.csproj",
       "projectName": "Maze",
-      "projectPath": "C:\\Users\\lucaf\\Desktop\\Dawson\\p5\\fratipietro-assignment-2\\Maze\\Maze.csproj",
-      "packagesPath": "C:\\Users\\lucaf\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\lucaf\\Desktop\\Dawson\\p5\\fratipietro-assignment-2\\Maze\\obj\\",
+      "projectPath": "C:\\Users\\2143068\\Desktop\\fratipietro-assignment-2\\Maze\\Maze.csproj",
+      "packagesPath": "C:\\Dev\\.nuget\\packages",
+      "outputPath": "C:\\Users\\2143068\\Desktop\\fratipietro-assignment-2\\Maze\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\lucaf\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\2143068\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

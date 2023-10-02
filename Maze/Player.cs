@@ -11,15 +11,15 @@ namespace Maze
 
         public Player(Block[,] mapGrid) {
             this.Facing = Direction.N;
-            this.mapGrid = mapGrid;
+            this._mapGrid = mapGrid;
         }
-        public Direction Facing { get; set; }
+        public Direction Facing { get; private set; }
 
-        public MapVector Position {  get; set; }
+        public MapVector Position {  get; private set; }
 
-        public int StartX {  get; set; }
+        public int StartX {  get; private set; }
 
-        public int StartY { get; set; }
+        public int StartY { get; private set; }
 
         readonly private Block[,] mapGrid;
 

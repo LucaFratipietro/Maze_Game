@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
-using forms = System.Windows.Forms;
+//using forms = System.Windows.Forms;
 using MFile = MazeFromFile.MazeFromFile;
 
 namespace MonoGame;
@@ -105,13 +105,6 @@ public class MazeGame : Game
             for (int j = 0; j < _map.Width; j++)
             {
 
-                //Places Player on Map
-                if (i == _map.Player.StartY && j == _map.Player.StartX)
-                {
-                    _spriteBatch.Draw(_oddish, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
-                    continue;
-                }
-
                 //Places Goal on Map
 
                 if (i == _map.Goal.Y && j == _map.Goal.X)
@@ -128,6 +121,14 @@ public class MazeGame : Game
                 {
                     _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
                 }
+
+                //Places Player on Map
+                if (i == _map.Player.StartY && j == _map.Player.StartX)
+                {
+                    _spriteBatch.Draw(_oddish, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    continue;
+                }
+
             }
         }
 
