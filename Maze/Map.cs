@@ -115,7 +115,7 @@ namespace Maze
                     legal = true;
                     player.StartX = randX;
                     player.StartY = randY;
-                    player.Position = new MapVector(randY, randX);
+                    player.Position = new MapVector(randX, randY);
                     this.Player = player;
                 }
 

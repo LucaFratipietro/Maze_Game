@@ -459,8 +459,8 @@ namespace Maze.Tests
             mapGrid[1, 2] = Block.Empty;
             mapGrid[1, 3] = Block.Empty;
             mapGrid[2, 1] = Block.Empty;
-            mapGrid[2, 3] = Block.Empty;
             mapGrid[3, 1] = Block.Empty;
+            mapGrid[3, 2] = Block.Empty;
             mapGrid[3, 3] = Block.Empty;
 
             return mapGrid;

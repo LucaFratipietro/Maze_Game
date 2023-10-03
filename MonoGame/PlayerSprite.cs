@@ -7,6 +7,8 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using Maze;
+using Microsoft.Xna.Framework.Input;
+using System.Windows;
 
 namespace MonoGame
 {
@@ -20,10 +22,15 @@ namespace MonoGame
         private SpriteBatch _spriteBatch;
         private Game _game;
 
+        private MapVector _currentPosition;
+        private int Value = 3;
+
         public PlayerSprite(Player player, Game game) : base(game)
         {
             this._player = player;
             this._game = game;
+            //sets initial position of player to their starting location
+            this._currentPosition = new MapVector(_player.StartX, _player.StartY);
         }
         
         public override void Initialize()
@@ -42,6 +49,13 @@ namespace MonoGame
 
         public override void Update(GameTime gameTime)
         {
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space))
+            {
+                this._player.TurnRight();
+                this._player.MoveForward();
+            }
+
             base.Update(gameTime);
         }
         
@@ -49,7 +63,7 @@ namespace MonoGame
         {
 
             _spriteBatch.Begin();
-            _spriteBatch.Draw(_oddish,new Vector2(this._player.StartX * 32, this._player.StartY * 32), Color.White);
+            _spriteBatch.Draw(_oddish,new Vector2(this._player.Position.X * 32, this._player.Position.Y * 32), Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
         }

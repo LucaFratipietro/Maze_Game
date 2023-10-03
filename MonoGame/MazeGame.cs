@@ -59,17 +59,16 @@ public class MazeGame : Game
 
         //Pass player object to PlayerSprite
 
+        
         PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this);
 
         //add player sprite as component to mono game
 
-        this.Components.Add(playerS);
+        Components.Add(playerS);
 
         //when Map is set, start initializing game
         base.Initialize();
 
-        
-        
     }
 
     protected override void LoadContent()
@@ -86,6 +85,8 @@ public class MazeGame : Game
 
     protected override void Update(GameTime gameTime)
     {
+
+        Console.WriteLine("HERE");
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
