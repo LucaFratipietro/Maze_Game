@@ -11,10 +11,13 @@ namespace MonoGame;
 
 public class MazeGame : Game
 {
+    //loading textures
     private Texture2D _wall;
     private Texture2D _path;
     private Texture2D _goal;
 
+    //objects needed for game to run
+    private bool _initalMapLoad = false;
     private Map _map;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -86,16 +89,19 @@ public class MazeGame : Game
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
+        //draw map on inital run of Update, but don't redraw it again afterwords, all redrawing of player and paths done in player sprites
+        if (!_initalMapLoad)
+        {
+            _initalMapLoad = true;
+            base.Update(gameTime);
+        }
 
-        base.Update(gameTime);
     }
 
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
-        // TODO: Add your drawing code here
         drawMap(gameTime);
 
         base.Draw(gameTime);
