@@ -56,6 +56,7 @@ namespace MonoGame
                 {
                    if(this._player.Facing == Direction.N) { this._player.TurnRight(); }
                    this._player.MoveForward();
+                    
                 }
                 catch
                 {

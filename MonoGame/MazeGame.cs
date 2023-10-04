@@ -36,7 +36,7 @@ public class MazeGame : Game
         var filePath = "";
         using(forms.OpenFileDialog openFileDialog = new forms.OpenFileDialog())
         {
-            openFileDialog.InitialDirectory = "c:\\";
+            openFileDialog.InitialDirectory = ".";
             openFileDialog.Filter = "txt files (*.txt)|*.txt|All files(*.*)|*.*";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
