@@ -52,8 +52,16 @@ namespace MonoGame
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space))
             {
-                this._player.TurnRight();
-                this._player.MoveForward();
+                try
+                {
+                   if(this._player.Facing == Direction.N) { this._player.TurnRight(); }
+                   this._player.MoveForward();
+                }
+                catch
+                {
+                    //do nothing
+                }
+                
             }
 
             base.Update(gameTime);

@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.IO;
-//using forms = System.Windows.Forms;
+using forms = System.Windows.Forms;
 using MFile = MazeFromFile.MazeFromFile;
 
 namespace MonoGame;
@@ -33,27 +33,23 @@ public class MazeGame : Game
     {
         //player must pick a valid map .txt from their file directory to load
 
-        /*var filePath = "";
-        using(OpenFileDialog openFileDialog = new OpenFileDialog())
+        var filePath = "";
+        using(forms.OpenFileDialog openFileDialog = new forms.OpenFileDialog())
         {
             openFileDialog.InitialDirectory = "c:\\";
             openFileDialog.Filter = "txt files (*.txt)|*.txt|All files(*.*)|*.*";
             openFileDialog.FilterIndex = 2;
             openFileDialog.RestoreDirectory = true;
             
-            if(openFileDialog.ShowDialog() == DialogResult.OK)
+            if(openFileDialog.ShowDialog() == forms.DialogResult.OK)
             {
                 //gets the path for the map you want to load
                 filePath = openFileDialog.FileName;
             }
-        }*/
-
-        string sCurrentDirectory = System.AppDomain.CurrentDomain.BaseDirectory;
-        string sFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\map9x7.txt");
-        string sFilePath = Path.GetFullPath(sFile);
+        }
 
         //Once map is chosen, create map object for the game
-        IMapProvider mapPro = new MazeFromFile.MazeFromFile(sFilePath);
+        IMapProvider mapPro = new MazeFromFile.MazeFromFile(filePath);
         _map = new Map(mapPro);
         _map.CreateMap();
 
@@ -81,29 +77,29 @@ public class MazeGame : Game
         _path = Content.Load<Texture2D>("path");
         _goal = Content.Load<Texture2D>("goal");
 
+        base.LoadContent();
+
     }
 
     protected override void Update(GameTime gameTime)
     {
 
-        Console.WriteLine("HERE");
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        //draw map on inital run of Update, but don't redraw it again afterwords, all redrawing of player and paths done in player sprites
-        if (!_initalMapLoad)
-        {
-            _initalMapLoad = true;
-            base.Update(gameTime);
-        }
+        base.Update(gameTime);
 
     }
 
     protected override void Draw(GameTime gameTime)
     {
-        GraphicsDevice.Clear(Color.CornflowerBlue);
-
-        drawMap(gameTime);
+        //draw map on inital run of Draw, but don't redraw it again afterwords, all redrawing of player and paths done in player sprites
+        if (!_initalMapLoad)
+        {
+            GraphicsDevice.Clear(Color.CornflowerBlue);
+            _initalMapLoad = true;
+            drawMap(gameTime);
+        }
 
         base.Draw(gameTime);
     }
