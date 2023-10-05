@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.AccessControl;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
+using Microsoft.Xna.Framework.Input;
 using Maze;
+using SharpDX.MediaFoundation;
 
 namespace MonoGame
 {
     public class InputManager
     {
-        private Dictionary<Key, Action> _handlerKeys = new Dictionary<Key, Action>();
+        private Dictionary<Keys, Action> _handlerKeys = new Dictionary<Keys, Action>();
         private static InputManager _instance = null;
+
+        //keyboard state for only running on handler per click
+        private KeyboardState _currentState = Keyboard.GetState();
+        private KeyboardState _previousState = Keyboard.GetState();
+
 
         private InputManager()
         { 
@@ -31,20 +33,34 @@ namespace MonoGame
             }
         }
 
-        public void AddKeyHandler(Key key, Action handler)
+        public void AddKeyHandler(Keys key, Action handler)
         {
             _handlerKeys.Add(key, handler);
         } 
 
         public void Update()
         {
+            //fetches the current state of the keyboard
+            GetCurrentState();
+
             foreach (var input in _handlerKeys)
             {
-                if (Keyboard.IsKeyDown(input.Key))
+                if (_currentState.IsKeyDown(input.Key))
                 {
-                    input.Value?.Invoke();
+                    if (_previousState.IsKeyUp(input.Key))
+                    {
+                        input.Value?.Invoke();
+                    }
                 }
             }
+        }
+
+        private void GetCurrentState()
+        {
+
+            //sets previous states as the currentstate, and updates currentState with GetState
+            _previousState = _currentState;
+            _currentState = Keyboard.GetState();
 
         }
 

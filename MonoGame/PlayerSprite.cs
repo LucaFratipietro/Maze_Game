@@ -1,14 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 using Maze;
 using Microsoft.Xna.Framework.Input;
-using System.Windows;
 
 namespace MonoGame
 {
@@ -27,6 +21,8 @@ namespace MonoGame
 
         public PlayerSprite(Player player, Game game) : base(game)
         {
+
+            //sets important variables for PlayerSprite function
             this._player = player;
             this._game = game;
             this._inputManager = InputManager.Instance;
@@ -37,6 +33,11 @@ namespace MonoGame
         
         public override void Initialize()
         {
+
+            //Add actions to Inputmanager for each key
+            _inputManager.AddKeyHandler(Keys.Right, MoveRight);
+            _inputManager.AddKeyHandler(Keys.Up, MoveUp);
+
             base.Initialize();
         }
 
@@ -52,21 +53,6 @@ namespace MonoGame
         public override void Update(GameTime gameTime)
         {
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space))
-            {
-                try
-                {
-                   if(this._player.Facing == Direction.N) { this._player.TurnRight(); }
-                   this._player.MoveForward();
-                    
-                }
-                catch
-                {
-                    //do nothing
-                }
-                
-            }
-
             _inputManager.Update();
 
             base.Update(gameTime);
@@ -79,6 +65,34 @@ namespace MonoGame
             _spriteBatch.Draw(_oddish,new Vector2(this._player.Position.X * 32, this._player.Position.Y * 32), Color.White);
             _spriteBatch.End();
             base.Draw(gameTime);
+        }
+
+        private void MoveRight()
+        {
+            try
+            {
+                if (this._player.Facing == Direction.N) { this._player.TurnRight(); }
+                this._player.MoveForward();
+
+            }
+            catch
+            {
+                //do nothing
+            }
+        }
+
+        private void MoveUp()
+        {
+            try
+            {
+                if (this._player.Facing == Direction.N) { }
+                this._player.MoveForward();
+
+            }
+            catch
+            {
+                //do nothing
+            }
         }
 
     }
