@@ -56,7 +56,7 @@ public class MazeGame : Game
         //Pass player object to PlayerSprite
 
         
-        PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this);
+        PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
 
         //add player sprite as component to mono game
 

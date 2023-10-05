@@ -11,6 +11,7 @@ namespace MonoGame
     {
 
         private Player _player;
+        private MapVector _goal;
         private Texture2D _oddish;
         private Texture2D _path;
 
@@ -21,12 +22,13 @@ namespace MonoGame
         private MapVector _previousPosition;
         private InputManager _inputManager;
 
-        public PlayerSprite(Player player, Game game) : base(game)
+        public PlayerSprite(Player player, Game game, MapVector goal) : base(game)
         {
 
             //sets important variables for PlayerSprite function
             this._player = player;
             this._game = game;
+            this._goal = goal;
             this._inputManager = InputManager.Instance;
 
         }
@@ -58,7 +60,12 @@ namespace MonoGame
 
             _inputManager.Update();
 
+            //if player moves into the goal, end the game
+            if (this._player.Position.Equals(this._goal)) { _game.Exit(); }
+
             base.Update(gameTime);
+
+            
         }
         
         public override void Draw(GameTime gameTime)
@@ -99,9 +106,6 @@ namespace MonoGame
             catch {
                 //You could use logger here
             }
-
-            //if MoveForward is succesful, update currentPosiotion
-
         }
 
         private void MoveBackwards()
@@ -113,7 +117,7 @@ namespace MonoGame
 
                 this._player.MoveBackward();
 
-                //if player is succesfully moved forward, save previous position 
+                //if player is succesfully moved backwards, save previous position 
                 this._previousPosition = position;
             }
             catch
