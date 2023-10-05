@@ -92,6 +92,7 @@ public class MazeGame : Game
 
         base.Update(gameTime);
 
+
     }
 
     protected override void Draw(GameTime gameTime)
