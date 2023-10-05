@@ -10,6 +10,8 @@ namespace MonoGame
     public class PlayerSprite : DrawableGameComponent
     {
 
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private Player _player;
         private MapVector _goal;
         private Texture2D _oddish;
@@ -30,6 +32,9 @@ namespace MonoGame
             this._game = game;
             this._goal = goal;
             this._inputManager = InputManager.Instance;
+
+            _logger.Info($"Player Starting Position -- X:{_player.Position.X} Y:{_player.Position.Y}");
+            _logger.Info($"Goal Position -- X:{_goal.X} Y:{_goal.Y}");
 
         }
         
@@ -61,7 +66,7 @@ namespace MonoGame
             _inputManager.Update();
 
             //if player moves into the goal, end the game
-            if (this._player.Position.Equals(this._goal)) { _game.Exit(); }
+            if (this._player.Position.Equals(this._goal)) { _logger.Info("Game Exit -- Player reached goal");  _game.Exit(); }
 
             base.Update(gameTime);
 
@@ -99,12 +104,13 @@ namespace MonoGame
                 MapVector position = _player.Position;
 
                 this._player.MoveForward();
+                _logger.Info($"Player Moved forward -- New Position X:{_player.Position.X} Y:{_player.Position.Y}");
 
                 //if player is succesfully moved forward, save previous position 
                 this._previousPosition = position;
             }
             catch {
-                //You could use logger here
+                _logger.Info("Player failed to move forward");
             }
         }
 
@@ -116,13 +122,14 @@ namespace MonoGame
                 MapVector position = _player.Position;
 
                 this._player.MoveBackward();
+                _logger.Info($"Player Moved backwards -- New Position X:{_player.Position.X} Y:{_player.Position.Y}");
 
                 //if player is succesfully moved backwards, save previous position 
                 this._previousPosition = position;
             }
             catch
             {
-                //You could use logger here
+                _logger.Info("Player failed to move backwards");
             }
         }
 

@@ -57,8 +57,6 @@ public class MazeGame : Game
         _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map loaded");
 
         //Pass player object to PlayerSprite
-
-
         PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
 
         //add player sprite as component to mono game
@@ -87,8 +85,8 @@ public class MazeGame : Game
     protected override void Update(GameTime gameTime)
     {
 
-        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            Exit();
+        if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) { _logger.Info("Game Exit -- Manuel Exit using ESC");  Exit(); }
+            
 
         base.Update(gameTime);
 
