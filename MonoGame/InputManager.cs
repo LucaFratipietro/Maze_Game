@@ -8,6 +8,8 @@ namespace MonoGame
 {
     public class InputManager
     {
+        private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
         private Dictionary<Keys, Action> _handlerKeys = new Dictionary<Keys, Action>();
         private static InputManager _instance = null;
 

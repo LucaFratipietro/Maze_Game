@@ -11,6 +11,8 @@ namespace MonoGame;
 
 public class MazeGame : Game
 {
+    private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
+
     //loading textures
     private Texture2D _wall;
     private Texture2D _path;
@@ -52,10 +54,11 @@ public class MazeGame : Game
         IMapProvider mapPro = new MazeFromFile.MazeFromFile(filePath);
         _map = new Map(mapPro);
         _map.CreateMap();
+        _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map loaded");
 
         //Pass player object to PlayerSprite
 
-        
+
         PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
 
         //add player sprite as component to mono game
