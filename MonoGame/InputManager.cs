@@ -5,15 +5,19 @@ using System.Security.AccessControl;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Maze;
 
 namespace MonoGame
 {
     public class InputManager
     {
-        private List<Action> _actions = new List<Action>();
+        private Dictionary<Key, Action> _handlerKeys = new Dictionary<Key, Action>();
         private static InputManager _instance = null;
 
-        private InputManager() { }
+        private InputManager()
+        { 
+
+        }
 
         public static InputManager Instance
         {
@@ -29,11 +33,18 @@ namespace MonoGame
 
         public void AddKeyHandler(Key key, Action handler)
         {
-            // add keys here
+            _handlerKeys.Add(key, handler);
         } 
 
         public void Update()
         {
+            foreach (var input in _handlerKeys)
+            {
+                if (Keyboard.IsKeyDown(input.Key))
+                {
+                    input.Value?.Invoke();
+                }
+            }
 
         }
 

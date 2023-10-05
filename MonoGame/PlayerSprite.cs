@@ -23,12 +23,14 @@ namespace MonoGame
         private Game _game;
 
         private MapVector _currentPosition;
-        private int Value = 3;
+        private InputManager _inputManager;
 
         public PlayerSprite(Player player, Game game) : base(game)
         {
             this._player = player;
             this._game = game;
+            this._inputManager = InputManager.Instance;
+
             //sets initial position of player to their starting location
             this._currentPosition = new MapVector(_player.StartX, _player.StartY);
         }
@@ -64,6 +66,8 @@ namespace MonoGame
                 }
                 
             }
+
+            _inputManager.Update();
 
             base.Update(gameTime);
         }
