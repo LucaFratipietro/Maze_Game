@@ -121,17 +121,17 @@ public class MazeGame : Game
 
                 if (i == _map.Goal.Y && j == _map.Goal.X)
                 {
-                    _spriteBatch.Draw(_goal, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    _spriteBatch.Draw(_goal, new Vector2(j * 32, i * 32), Color.White);
                     continue;
                 }
 
                 if (_map.MapGrid[j, i] == Block.Solid)
                 {
-                    _spriteBatch.Draw(_wall, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    _spriteBatch.Draw(_wall, new Vector2(j * 32, i * 32), Color.White);
                 }
                 else
                 {
-                    _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.CornflowerBlue);
+                    _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.White);
                 }
 
             }
