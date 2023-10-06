@@ -56,6 +56,11 @@ public class MazeGame : Game
         _map.CreateMap();
         _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map loaded");
 
+        //sets window resolution to match loded map
+        _graphics.PreferredBackBufferWidth = _map.Width * 32;
+        _graphics.PreferredBackBufferHeight =  _map.Height * 32;
+        _graphics.ApplyChanges();
+
         //Pass player object to PlayerSprite
         PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
 
