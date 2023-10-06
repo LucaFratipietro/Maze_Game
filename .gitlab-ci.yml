@@ -18,7 +18,7 @@ unit-test:
          junit:
          - ./**/*test-result.xml
 
-        expire_in: "1 week"
+        expire_in: 1 week
 
 deployment:
     stage: deploy
@@ -26,11 +26,10 @@ deployment:
         - apt-get update
         - apt-get install zip -y
     script:
-        - cd MonoGame
         - dotnet publish -c Release -o publish_output
-        - zip -r Monogame.zip publish_output/
+        - tar -zcvf MonoGame.tar.gz ./publish
     artifacts:
         paths:
-            - MonoGame.zip
-        expire_in: "2 weeks"
+            - MonoGame.tar.gz
+        expire_in: 2 weeks
 
