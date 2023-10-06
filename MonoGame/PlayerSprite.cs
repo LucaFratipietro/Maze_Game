@@ -22,7 +22,6 @@ namespace MonoGame
         private Game _game;
 
         private MapVector _previousPosition;
-        private Direction _previousDirection = Direction.N;
         private InputManager _inputManager;
         private bool _initialDraw = false;
 
@@ -89,8 +88,8 @@ namespace MonoGame
             {
                 _spriteBatch.Begin();
                 _spriteBatch.Draw(_path, new Vector2(this._previousPosition.X * 32, this._previousPosition.Y * 32), Color.White);
+                _logger.Debug($"Path fixed at X: {_previousPosition.X} Y: {_previousPosition.Y}");
                 _previousPosition = _player.Position; //note, maybe not smart to have playerLogic in draw
-                _logger.Debug("Path fixed!");
                 _spriteBatch.End();
 
             }
