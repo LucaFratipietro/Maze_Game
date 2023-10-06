@@ -98,7 +98,7 @@ public class MazeGame : Game
         //draw map on inital run of Draw, but don't redraw it again afterwords, all redrawing of player and paths done in player sprites
         if (!_initalMapLoad)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.DarkSlateBlue);
             _initalMapLoad = true;
             drawMap(gameTime);
         }
@@ -119,16 +119,11 @@ public class MazeGame : Game
             for (int j = 0; j < _map.Width; j++)
             {
 
-                //Places Goal on Map
-
-                if (i == _map.Goal.Y && j == _map.Goal.X)
-                {
-                    _spriteBatch.Draw(_goal, new Vector2(j * 32, i * 32), Color.White);
-                    continue;
-                }
+                
 
                 if (_map.MapGrid[j, i] == Block.Solid)
                 {
+                    _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.White);
                     _spriteBatch.Draw(_wall, new Vector2(j * 32, i * 32), Color.White);
                 }
                 else
@@ -136,8 +131,17 @@ public class MazeGame : Game
                     _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.White);
                 }
 
+                //Places Goal on Map
+
+                if (i == _map.Goal.Y && j == _map.Goal.X)
+                {
+                    _spriteBatch.Draw(_goal, new Vector2(j * 32, i * 32), Color.White);
+                }
+
             }
         }
+
+        _logger.Debug("Map Drawn");
 
         _spriteBatch.End();
 

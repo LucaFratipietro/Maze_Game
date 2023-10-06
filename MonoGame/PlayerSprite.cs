@@ -70,7 +70,6 @@ namespace MonoGame
 
             base.Update(gameTime);
 
-            
         }
         
         public override void Draw(GameTime gameTime)
@@ -81,8 +80,13 @@ namespace MonoGame
             if(_previousPosition != null && _previousPosition != _player.Position)
             {
                 _spriteBatch.Draw(_path, new Vector2(this._previousPosition.X * 32, this._previousPosition.Y * 32), Color.White);
+                _previousPosition = _player.Position; //note, maybe not smart to have playerLogic in draw
+                _logger.Debug("Path fixed!");
+
             }
 
+            //redraw path on where sprite is located and than draw sprite
+            _spriteBatch.Draw(_path, new Vector2(this._player.Position.X * 32, this._player.Position.Y * 32), Color.White);
             _spriteBatch.Draw(
                 _oddish,
                 new Vector2(this._player.Position.X * 32 + 16, this._player.Position.Y * 32 + 16),
@@ -94,6 +98,9 @@ namespace MonoGame
                 SpriteEffects.None,
                 0);
             _spriteBatch.End();
+
+            _logger.Debug("Player ReDrawn");
+
             base.Draw(gameTime);
         }
         private void MoveForward()
