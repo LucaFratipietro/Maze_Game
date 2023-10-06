@@ -27,7 +27,7 @@ deployment:
         - apt-get install zip -y
     script:
         - dotnet publish -c Release -o publish_output
-        - zip MonoGame.zip ./publish_output
+        - zip -r MonoGame.zip ./publish_output
     artifacts:
         paths:
             - MonoGame.zip
