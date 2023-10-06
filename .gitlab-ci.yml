@@ -1,0 +1,36 @@
+default:
+  image: mcr.microsoft.com/dotnet/sdk:6.0
+
+stages:
+    - test
+    - deploy
+
+unit-test:
+    stage: test
+    script:
+        - cd MazeTests
+        - 'dotnet test --test-adapter-path:. --logger:"junit;LogFilePath=..\artifacts\{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"'
+    artifacts:
+        when: always
+        paths:
+        - ./**/*test-result.xml
+        reports:
+         junit:
+         - ./**/*test-result.xml
+
+        expire_in: "1 week"
+
+deployment:
+    stage: deploy
+    before_script:
+        - apt-get update
+        - apt-get install zip -y
+    script:
+        - cd MonoGame
+        - dotnet publish -c Release -o publish_output
+        - zip -r Monogame.zip publish_output/
+    artifacts:
+        paths:
+            - MazeGame.zip
+        expire_in: "2 weeks"
+
