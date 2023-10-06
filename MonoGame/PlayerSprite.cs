@@ -22,7 +22,9 @@ namespace MonoGame
         private Game _game;
 
         private MapVector _previousPosition;
+        private Direction _previousDirection = Direction.N;
         private InputManager _inputManager;
+        private bool _initialDraw = false;
 
         public PlayerSprite(Player player, Game game, MapVector goal) : base(game)
         {
@@ -42,8 +44,8 @@ namespace MonoGame
         {
 
             //Add actions to Inputmanager for each key
-            _inputManager.AddKeyHandler(Keys.Right, () => _player.TurnRight());
-            _inputManager.AddKeyHandler(Keys.Left, () => _player.TurnLeft());
+            _inputManager.AddKeyHandler(Keys.Right, () => { _player.TurnRight(); _logger.Debug("Player Turned Right"); DrawPlayer(); } );
+            _inputManager.AddKeyHandler(Keys.Left, () => { _player.TurnLeft(); _logger.Debug("Player Turned Left"); DrawPlayer(); });
             _inputManager.AddKeyHandler(Keys.Up, MoveForward);
             _inputManager.AddKeyHandler(Keys.Down, MoveBackwards);
 
@@ -75,31 +77,23 @@ namespace MonoGame
         public override void Draw(GameTime gameTime)
         {
 
-            _spriteBatch.Begin();
-
-            if(_previousPosition != null && _previousPosition != _player.Position)
+            //draws player on initial update, so not overwritten by the MazeDraw in MazeGame
+            if (!this._initialDraw)
             {
+                DrawPlayer();
+                _logger.Debug("Inital Player Drawn");
+                this._initialDraw = true;
+            }
+
+            if (_previousPosition != null && _previousPosition != _player.Position)
+            {
+                _spriteBatch.Begin();
                 _spriteBatch.Draw(_path, new Vector2(this._previousPosition.X * 32, this._previousPosition.Y * 32), Color.White);
                 _previousPosition = _player.Position; //note, maybe not smart to have playerLogic in draw
                 _logger.Debug("Path fixed!");
+                _spriteBatch.End();
 
             }
-
-            //redraw path on where sprite is located and than draw sprite
-            _spriteBatch.Draw(_path, new Vector2(this._player.Position.X * 32, this._player.Position.Y * 32), Color.White);
-            _spriteBatch.Draw(
-                _oddish,
-                new Vector2(this._player.Position.X * 32 + 16, this._player.Position.Y * 32 + 16),
-                null,
-                Color.White,
-                this._player.GetRotation(),
-                new Vector2(_oddish.Width / 2, _oddish.Height / 2),
-                1.0f,
-                SpriteEffects.None,
-                0);
-            _spriteBatch.End();
-
-            _logger.Debug("Player ReDrawn");
 
             base.Draw(gameTime);
         }
@@ -112,6 +106,7 @@ namespace MonoGame
 
                 this._player.MoveForward();
                 _logger.Info($"Player Moved forward -- New Position X:{_player.Position.X} Y:{_player.Position.Y}");
+                DrawPlayer();
 
                 //if player is succesfully moved forward, save previous position 
                 this._previousPosition = position;
@@ -130,6 +125,7 @@ namespace MonoGame
 
                 this._player.MoveBackward();
                 _logger.Info($"Player Moved backwards -- New Position X:{_player.Position.X} Y:{_player.Position.Y}");
+                DrawPlayer();
 
                 //if player is succesfully moved backwards, save previous position 
                 this._previousPosition = position;
@@ -138,6 +134,26 @@ namespace MonoGame
             {
                 _logger.Info("Player failed to move backwards");
             }
+        }
+
+        private void DrawPlayer()
+        {
+            _spriteBatch.Begin();
+            //redraw path on where sprite is located and than draw sprite
+            _spriteBatch.Draw(_path, new Vector2(this._player.Position.X * 32, this._player.Position.Y * 32), Color.White);
+            _spriteBatch.Draw(
+                _oddish,
+                new Vector2(this._player.Position.X * 32 + 16, this._player.Position.Y * 32 + 16),
+                null,
+                Color.White,
+                this._player.GetRotation(),
+                new Vector2(_oddish.Width / 2, _oddish.Height / 2),
+                1.0f,
+                SpriteEffects.None,
+                0);
+            _spriteBatch.End();
+
+            _logger.Debug("Player Redrawn");
         }
 
     }
