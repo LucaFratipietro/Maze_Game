@@ -27,9 +27,9 @@ deployment:
         - apt-get install zip -y
     script:
         - dotnet publish -c Release -o publish_output
-        - tar -zcvf MonoGame.tar.gz ./publish_output
+        - zip MonoGame.zip ./publish_output
     artifacts:
         paths:
-            - MonoGame.tar.gz
+            - MonoGame.zip
         expire_in: 2 weeks
 
