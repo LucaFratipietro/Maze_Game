@@ -186,6 +186,15 @@ public class MazeGame : Game
     {
         GraphicsDevice.Clear(Color.DarkSlateBlue);
         _spriteBatch.Begin();
+
+        //loop through list of possible MapActions
+        for(int i = 0; i < _menuActions.Count; i++)
+        {
+            if(i == _menuIndex)
+            {
+
+            }
+        }
         _spriteBatch.DrawString(_font, "Menu", new Vector2(0, 0), Color.Black);
         _spriteBatch.End();
     }
