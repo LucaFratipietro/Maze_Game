@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
-using System.IO;
+using System.Collections.Generic;
 using forms = System.Windows.Forms;
 using MFile = MazeFromFile.MazeFromFile;
 
@@ -18,21 +18,36 @@ public class MazeGame : Game
     private Texture2D _path;
     private Texture2D _goal;
 
+    //loading fonts
+    private SpriteFont _font;
+    private List<Action> _menuActions = new List<Action>();
+    private int _menuIndex = 0;
+    private int _chosenWidth;
+    private int _chosenHeight;
+
     //objects needed for game to run
     private bool _initalMapLoad = false;
+    private bool _inMenu = true;
     private Map _map;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private InputManager _inputManager;
+
+
 
     public MazeGame()
     {
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
+        this._inputManager = InputManager.Instance;
     }
 
     protected override void Initialize()
     {
+        //add actions to the list
+
+
         //player must pick a valid map .txt from their file directory to load
 
         var filePath = "";
@@ -83,6 +98,10 @@ public class MazeGame : Game
         _path = Content.Load<Texture2D>("path");
         _goal = Content.Load<Texture2D>("goal");
 
+        // load spritefont
+
+        _font = Content.Load<SpriteFont>("File");
+
         base.LoadContent();
 
     }
@@ -91,15 +110,26 @@ public class MazeGame : Game
     {
 
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) { _logger.Info("Game Exit -- Manuel Exit using ESC");  Exit(); }
-            
+
+        //set the arrow keys to handle menu interaction
+        //_inputManager.AddKeyHandler(Keys.Up, () => {})
 
         base.Update(gameTime);
+        
 
 
     }
 
     protected override void Draw(GameTime gameTime)
     {
+        //when in inMenu boolean is true, draw the menu
+        if (_inMenu)
+        {
+            drawMenu(gameTime);
+            base.Draw(gameTime);
+            return;
+        }
+
         //draw map on inital run of Draw, but don't redraw it again afterwords, all redrawing of player and paths done in player sprites
         if (!_initalMapLoad)
         {
@@ -150,5 +180,13 @@ public class MazeGame : Game
 
         _spriteBatch.End();
 
+    }
+
+    private void drawMenu(GameTime gameTme)
+    {
+        GraphicsDevice.Clear(Color.DarkSlateBlue);
+        _spriteBatch.Begin();
+        _spriteBatch.DrawString(_font, "Menu", new Vector2(0, 0), Color.Black);
+        _spriteBatch.End();
     }
 }
