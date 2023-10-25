@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NLog.Filters;
 using System;
 using System.Collections.Generic;
 using forms = System.Windows.Forms;
@@ -65,6 +66,21 @@ public class MazeGame : Game
             _menuIndex++;
         });
 
+        _inputManager.AddKeyHandler(Keys.Enter, () =>
+        {
+            switch (_menuActions[_menuIndex])
+            {
+                case MenuActions.File:
+                    initializeFileMap();
+                    break;
+                case MenuActions.Recursion:
+                    break;
+                case MenuActions.Exit:
+                    Exit();
+                    break;
+            }
+        });
+
         base.Initialize();
 
     }
@@ -94,8 +110,6 @@ public class MazeGame : Game
 
         base.Update(gameTime);
         
-
-
     }
 
     protected override void Draw(GameTime gameTime)
@@ -181,6 +195,10 @@ public class MazeGame : Game
 
     private void initializeFileMap()
     {
+
+        //set isMenu to false so Map is drawn to screen -- and clear all keys in InputManager
+        _inMenu = false;
+        _inputManager.ClearKeys();
         //player must pick a valid map .txt from their file directory to load
 
         var filePath = "";
