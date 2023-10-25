@@ -255,6 +255,9 @@ public class MazeGame : Game
 
     private void SetMainMenuKeys()
     {
+
+        _inputManager.ClearKeys();
+
         //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
         _inputManager.AddKeyHandler(Keys.Up, () =>
         {
@@ -278,11 +281,69 @@ public class MazeGame : Game
                 case MenuActions.Recursion:
                     _menuIndex = 0;
                     _inRecursionMenu = true;
-                    //clear keys for new menu
-
+                    //set Keys for new Menu
+                    SetRecursionMenuKeys();
                     break;
                 case MenuActions.Exit:
                     Exit();
+                    break;
+            }
+        });
+    }
+
+    private void SetRecursionMenuKeys()
+    {
+        _inputManager.ClearKeys();
+
+        //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
+        _inputManager.AddKeyHandler(Keys.Up, () =>
+        {
+            if (_menuIndex == 0) { _menuIndex = _recursionMenuActions.Count - 1; return; }
+            _menuIndex--;
+        });
+
+        _inputManager.AddKeyHandler(Keys.Down, () =>
+        {
+            if (_menuIndex == _recursionMenuActions.Count - 1) { _menuIndex = 0; return; }
+            _menuIndex++;
+        });
+
+        _inputManager.AddKeyHandler(Keys.Left, () =>
+        {
+            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
+            {
+                if(_chosenWidth > 1) { _chosenWidth--; }
+            }
+            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
+            {
+                if (_chosenHeight > 1) { _chosenHeight--; }
+            }
+        });
+
+        _inputManager.AddKeyHandler(Keys.Right, () =>
+        {
+            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
+            {
+                if (_chosenWidth < 20) { _chosenWidth++; }
+            }
+            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
+            {
+                if (_chosenHeight < 20) { _chosenHeight++; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
+            }
+        });
+
+        _inputManager.AddKeyHandler(Keys.Enter, () =>
+        {
+            switch (_recursionMenuActions[_menuIndex])
+            {
+                case RecursionMenuActions.Create:
+                    //this will eventually make the map
+                    break;
+                case RecursionMenuActions.Return:
+                    _menuIndex = 0;
+                    _inRecursionMenu = false;
+                    //clear keys for new menu
+                    SetMainMenuKeys();
                     break;
             }
         });
