@@ -16,6 +16,7 @@ public class MazeGame : Game
 
     //enum of menuActions
     private enum MenuActions { File = 1, Recursion = 2, Exit = 3}
+    private enum RecursionMenuActions { Width = 1, Height = 2 , Create = 3, Return = 4}
 
     //loading textures
     private Texture2D _wall;
@@ -28,12 +29,14 @@ public class MazeGame : Game
     //needed for menu to function
     private List<MenuActions> _menuActions = new List<MenuActions>() { MenuActions.File, MenuActions.Recursion, MenuActions.Exit};
     private int _menuIndex = 0;
-    private int _chosenWidth;
-    private int _chosenHeight;
+    private List<RecursionMenuActions> _recursionMenuActions = new List<RecursionMenuActions>() { RecursionMenuActions.Width, RecursionMenuActions.Height, RecursionMenuActions.Return, RecursionMenuActions.Create};
+    private int _chosenWidth = 1;
+    private int _chosenHeight = 1;
 
     //objects needed for game to run
     private bool _initalMapLoad = false;
     private bool _inMenu = true;
+    private bool _inRecursionMenu = false;
     private Map _map;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -52,35 +55,14 @@ public class MazeGame : Game
     protected override void Initialize()
     {
 
-        //set the arrow keys to handle menu interaction
-        //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
-        _inputManager.AddKeyHandler(Keys.Up, () =>
-        {
-            if (_menuIndex == 0) { _menuIndex = _menuActions.Count - 1; return; }
-            _menuIndex--;
-        });
+        //set window size
+        _graphics.PreferredBackBufferWidth = 250;
+        _graphics.PreferredBackBufferHeight = 100;
+        _graphics.ApplyChanges();
 
-        _inputManager.AddKeyHandler(Keys.Down, () =>
-        {
-            if (_menuIndex == _menuActions.Count - 1) { _menuIndex = 0; return; }
-            _menuIndex++;
-        });
-
-        _inputManager.AddKeyHandler(Keys.Enter, () =>
-        {
-            switch (_menuActions[_menuIndex])
-            {
-                case MenuActions.File:
-                    initializeFileMap();
-                    break;
-                case MenuActions.Recursion:
-                    break;
-                case MenuActions.Exit:
-                    Exit();
-                    break;
-            }
-        });
-
+        //set the arrow keys to handle mainMenu interaction
+        SetMainMenuKeys();
+        
         base.Initialize();
 
     }
@@ -119,6 +101,12 @@ public class MazeGame : Game
         //when in inMenu boolean is true, draw the menu
         if (_inMenu)
         {
+            if (_inRecursionMenu)
+            {
+                drawRecursionMenu(gameTime);
+                base.Draw(gameTime);
+                return;
+            }
             drawMenu(gameTime);
             base.Draw(gameTime);
             return;
@@ -174,7 +162,7 @@ public class MazeGame : Game
 
     }
 
-    private void drawMenu(GameTime gameTme)
+    private void drawMenu(GameTime gameTime)
     {
         GraphicsDevice.Clear(Color.DarkSlateBlue);
         _spriteBatch.Begin();
@@ -189,6 +177,36 @@ public class MazeGame : Game
                 _spriteBatch.DrawString(_font, _menuActions[i].ToString(), new Vector2(0, (i + 1) * 15), Color.BurlyWood);
             }
             else { _spriteBatch.DrawString(_font, _menuActions[i].ToString(), new Vector2(0, (i + 1) * 15), Color.Black); }
+        }
+        _spriteBatch.End();
+    }
+
+    private void drawRecursionMenu(GameTime gameTime)
+    {
+        Color colour;
+        GraphicsDevice.Clear(Color.DarkSlateBlue);
+        _spriteBatch.Begin();
+
+        _spriteBatch.DrawString(_font, "Recursion Maze Setup", new Vector2(0, 0), Color.Black);
+
+        //loop through list of possible recursionMenuActions
+        for (int i = 0; i < _recursionMenuActions.Count; i++)
+        {
+            //change color for the fontSprite
+            colour = i == _menuIndex ? Color.BurlyWood : Color.Black;
+
+            switch (_recursionMenuActions[i])
+            {
+                case RecursionMenuActions.Width:
+                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString() + "< " + _chosenWidth + " >", new Vector2(0, (i + 1) * 15), colour);
+                    break;
+                case RecursionMenuActions.Height:
+                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString() + "< " + _chosenHeight + " >", new Vector2(0, (i + 1) * 15), colour);
+                    break;
+                default:
+                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString(), new Vector2(0, (i + 1) * 15), colour);
+                    break;
+            } 
         }
         _spriteBatch.End();
     }
@@ -233,5 +251,40 @@ public class MazeGame : Game
         //add player sprite as component to mono game
 
         Components.Add(playerS);
+    }
+
+    private void SetMainMenuKeys()
+    {
+        //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
+        _inputManager.AddKeyHandler(Keys.Up, () =>
+        {
+            if (_menuIndex == 0) { _menuIndex = _menuActions.Count - 1; return; }
+            _menuIndex--;
+        });
+
+        _inputManager.AddKeyHandler(Keys.Down, () =>
+        {
+            if (_menuIndex == _menuActions.Count - 1) { _menuIndex = 0; return; }
+            _menuIndex++;
+        });
+
+        _inputManager.AddKeyHandler(Keys.Enter, () =>
+        {
+            switch (_menuActions[_menuIndex])
+            {
+                case MenuActions.File:
+                    initializeFileMap();
+                    break;
+                case MenuActions.Recursion:
+                    _menuIndex = 0;
+                    _inRecursionMenu = true;
+                    //clear keys for new menu
+
+                    break;
+                case MenuActions.Exit:
+                    Exit();
+                    break;
+            }
+        });
     }
 }
