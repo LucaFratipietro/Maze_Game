@@ -13,6 +13,9 @@ public class MazeGame : Game
 {
     private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
+    //enum of menuActions
+    private enum MenuActions { File = 1, Recursion = 2, Exit = 3}
+
     //loading textures
     private Texture2D _wall;
     private Texture2D _path;
@@ -20,7 +23,9 @@ public class MazeGame : Game
 
     //loading fonts
     private SpriteFont _font;
-    private List<Action> _menuActions = new List<Action>();
+
+    //needed for menu to function
+    private List<MenuActions> _menuActions = new List<MenuActions>() { MenuActions.File, MenuActions.Recursion, MenuActions.Exit};
     private int _menuIndex = 0;
     private int _chosenWidth;
     private int _chosenHeight;
@@ -45,45 +50,21 @@ public class MazeGame : Game
 
     protected override void Initialize()
     {
-        //add actions to the list
 
-
-        //player must pick a valid map .txt from their file directory to load
-
-        var filePath = "";
-        using(forms.OpenFileDialog openFileDialog = new forms.OpenFileDialog())
+        //set the arrow keys to handle menu interaction
+        //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
+        _inputManager.AddKeyHandler(Keys.Up, () =>
         {
-            openFileDialog.InitialDirectory = ".";
-            openFileDialog.Filter = "txt files (*.txt)|*.txt|All files(*.*)|*.*";
-            openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
-            
-            if(openFileDialog.ShowDialog() == forms.DialogResult.OK)
-            {
-                //gets the path for the map you want to load
-                filePath = openFileDialog.FileName;
-            }
-        }
+            if (_menuIndex == 0) { _menuIndex = _menuActions.Count - 1; return; }
+            _menuIndex--;
+        });
 
-        //Once map is chosen, create map object for the game
-        IMapProvider mapPro = new MazeFromFile.MazeFromFile(filePath);
-        _map = new Map(mapPro);
-        _map.CreateMap();
-        _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map loaded");
+        _inputManager.AddKeyHandler(Keys.Down, () =>
+        {
+            if (_menuIndex == _menuActions.Count - 1) { _menuIndex = 0; return; }
+            _menuIndex++;
+        });
 
-        //sets window resolution to match loded map
-        _graphics.PreferredBackBufferWidth = _map.Width * 32;
-        _graphics.PreferredBackBufferHeight =  _map.Height * 32;
-        _graphics.ApplyChanges();
-
-        //Pass player object to PlayerSprite
-        PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
-
-        //add player sprite as component to mono game
-
-        Components.Add(playerS);
-
-        //when Map is set, start initializing game
         base.Initialize();
 
     }
@@ -111,9 +92,6 @@ public class MazeGame : Game
 
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape)) { _logger.Info("Game Exit -- Manuel Exit using ESC");  Exit(); }
 
-        //set the arrow keys to handle menu interaction
-        //_inputManager.AddKeyHandler(Keys.Up, () => {})
-
         base.Update(gameTime);
         
 
@@ -122,6 +100,8 @@ public class MazeGame : Game
 
     protected override void Draw(GameTime gameTime)
     {
+        _inputManager.Update();
+
         //when in inMenu boolean is true, draw the menu
         if (_inMenu)
         {
@@ -154,8 +134,6 @@ public class MazeGame : Game
             for (int j = 0; j < _map.Width; j++)
             {
 
-                
-
                 if (_map.MapGrid[j, i] == Block.Solid)
                 {
                     _spriteBatch.Draw(_path, new Vector2(j * 32, i * 32), Color.White);
@@ -187,15 +165,17 @@ public class MazeGame : Game
         GraphicsDevice.Clear(Color.DarkSlateBlue);
         _spriteBatch.Begin();
 
+        _spriteBatch.DrawString(_font, "Menu: Choose how to load the maze", new Vector2(0, 0), Color.Black);
+
         //loop through list of possible MapActions
-        for(int i = 0; i < _menuActions.Count; i++)
+        for (int i = 0; i < _menuActions.Count; i++)
         {
             if(i == _menuIndex)
             {
-
+                _spriteBatch.DrawString(_font, _menuActions[i].ToString(), new Vector2(0, (i + 1) * 15), Color.BurlyWood);
             }
+            else { _spriteBatch.DrawString(_font, _menuActions[i].ToString(), new Vector2(0, (i + 1) * 15), Color.Black); }
         }
-        _spriteBatch.DrawString(_font, "Menu", new Vector2(0, 0), Color.Black);
         _spriteBatch.End();
     }
 
