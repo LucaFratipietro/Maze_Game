@@ -8,6 +8,7 @@ namespace Maze
         private Direction[,]? directionGrid;
         private int gridWidth;
         private int gridHeight;
+        private List<Direction> possibleDirections = new List<Direction>() { Direction.N, Direction.S, Direction.E, Direction.W };
 
         private static Random rnd = new Random();
         
@@ -24,7 +25,10 @@ namespace Maze
             this.directionGrid = new Direction[gridWidth, gridHeight];
 
             //Call recursive Walk function to fill directionGrid
-            Walk();
+            var randX = rnd.Next(gridWidth);
+            var randY = rnd.Next(gridHeight);
+            List<MapVector> visitedPositions = new List<MapVector>() { new MapVector(randX, randY) };
+            Walk2(0, visitedPositions);
 
             //once done walking, return populated grid
 
@@ -36,6 +40,46 @@ namespace Maze
         {
             //later, just call CreateMap with a static width and height
             throw new NotImplementedException();
+        }
+
+        //bigger and better
+        private void Walk2(int currentIndex, List<MapVector> visitedPositions)
+        {
+            if (currentIndex < 0)
+            {
+                //once weve returned to the original start position, and have no where to go, return
+                return;
+            }
+            //shuffle list of directions
+            List<Direction> shuffleDir = this.possibleDirections.OrderBy(x => Random.Shared.Next()).ToList();
+
+            for(int i = 0; i < shuffleDir.Count; i++)
+            {
+                //see if we can move to direction in shuffleDir, if no, move onto next one
+                MapVector nextPosition = visitedPositions[currentIndex] + (MapVector)shuffleDir[i];
+                if(nextPosition.InsideBoundary(this.gridWidth, this.gridHeight))
+                {
+                    if (!visitedPositions.Contains(nextPosition))
+                    {
+                        visitedPositions.Add(nextPosition);
+                        this.directionGrid[visitedPositions[currentIndex].X, visitedPositions[currentIndex].Y] = this.directionGrid[visitedPositions[currentIndex].X, visitedPositions[currentIndex].Y] | shuffleDir[i];
+                        switch (shuffleDir[i])
+                        {
+                            case Direction.N:
+                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.S; break;
+                            case Direction.S:
+                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.N; break;
+                            case Direction.E:
+                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.W; break;
+                            case Direction.W:
+                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.E; break;
+                        }
+                        Walk2(currentIndex + 1, visitedPositions);
+                    }
+                }
+            }
+            //if none of the 4 directions worked, move back an index and recall Walk2
+            Walk2(currentIndex - 1, visitedPositions);
         }
 
         private void Walk()
@@ -99,6 +143,8 @@ namespace Maze
                     count++;
                 }
             }
-        } 
+        }
+        
+        
     }
 }
