@@ -3,7 +3,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Maze
 {
-    public class RecursionMap : IMapProvider
+    public class MazeRecursion : IMapProvider
     {
         private Direction[,]? directionGrid;
         private int gridWidth;
@@ -12,7 +12,7 @@ namespace Maze
 
         private static Random rnd = new Random();
         
-        public RecursionMap() { }
+        public MazeRecursion() { }
         public Direction[,] CreateMap(int width, int height)
         {
             //ensure minimum width and height
@@ -28,22 +28,21 @@ namespace Maze
             var randX = rnd.Next(gridWidth);
             var randY = rnd.Next(gridHeight);
             List<MapVector> visitedPositions = new List<MapVector>() { new MapVector(randX, randY) };
-            Walk2(0, visitedPositions);
+            Walk(0, visitedPositions);
 
             //once done walking, return populated grid
-
             return this.directionGrid;
             
         }
 
         public Direction[,] CreateMap()
         {
-            //later, just call CreateMap with a static width and height
-            throw new NotImplementedException();
+            //just call CreateMap with a static width and height
+            return CreateMap(7, 7);
         }
 
-        //bigger and better
-        private void Walk2(int currentIndex, List<MapVector> visitedPositions)
+        //Recusive Walking algorithm that populates the directionGrid
+        private void Walk(int currentIndex, List<MapVector> visitedPositions)
         {
             if (currentIndex < 0)
             {
@@ -74,77 +73,12 @@ namespace Maze
                             case Direction.W:
                                 this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.E; break;
                         }
-                        Walk2(currentIndex + 1, visitedPositions);
+                        Walk(currentIndex + 1, visitedPositions);
                     }
                 }
             }
             //if none of the 4 directions worked, move back an index and recall Walk2
-            Walk2(currentIndex - 1, visitedPositions);
+            Walk(currentIndex - 1, visitedPositions);
         }
-
-        private void Walk()
-        {
-            int count = 0; //if we cant find legal start in 100 attemps, just call it
-            List<Direction> possibleDirections = new List<Direction>() { Direction.N, Direction.E, Direction.S, Direction.W};
-
-            while (count < 100)
-            {
-                var randX = rnd.Next(gridWidth - 1);
-                var randY = rnd.Next(gridHeight - 1);
-
-                if ((this.directionGrid[randX, randY] ^ Direction.None) == 0)
-                {   
-                    MapVector currentPosition = new MapVector(randX, randY);
-                    HashSet<MapVector> visited = new HashSet<MapVector>() { currentPosition };
-                    bool looping = true;
-                    count = 0;
-
-                    while (looping) {
-                        //pick random direction
-                        Direction randomDirection = possibleDirections[rnd.Next(possibleDirections.Count)];
-
-                        MapVector movement = (MapVector)randomDirection;
-
-                        MapVector nextPosition = currentPosition + movement;
-
-                        if(!nextPosition.InsideBoundary(this.gridWidth, this.gridHeight))
-                        {
-                            looping = false;
-                            break;
-                        }
-
-                        if(visited.Add(nextPosition))
-                        {
-                            this.directionGrid[randX, randY] = this.directionGrid[randX, randY] | randomDirection;
-                            //uh idk lol big switch for now
-                            switch(randomDirection)
-                            {
-                                case Direction.N:
-                                    this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.S; break;
-                                case Direction.S:
-                                    this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.N; break;
-                                case Direction.E:
-                                    this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.W; break;
-                                case Direction.W:
-                                    this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.E; break;
-                            }
-
-                            currentPosition = nextPosition;
-                        }
-                        else
-                        {
-                            looping = false;
-                        }
-                    }
-                    Walk();
-                }
-                else
-                {
-                    count++;
-                }
-            }
-        }
-        
-        
     }
 }
