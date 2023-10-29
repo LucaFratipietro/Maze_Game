@@ -30,8 +30,8 @@ public class MazeGame : Game
     private List<MenuActions> _menuActions = new List<MenuActions>() { MenuActions.File, MenuActions.Recursion, MenuActions.Exit};
     private int _menuIndex = 0;
     private List<RecursionMenuActions> _recursionMenuActions = new List<RecursionMenuActions>() { RecursionMenuActions.Width, RecursionMenuActions.Height, RecursionMenuActions.Return, RecursionMenuActions.Create};
-    private int _chosenWidth = 1;
-    private int _chosenHeight = 1;
+    private int _chosenWidth = 5;
+    private int _chosenHeight = 5;
 
     //objects needed for game to run
     private bool _initalMapLoad = false;
@@ -253,6 +253,31 @@ public class MazeGame : Game
         Components.Add(playerS);
     }
 
+    private void initializeRecursionMap()
+    {
+
+        //set isMenu to false so Map is drawn to screen -- and clear all keys in InputManager
+        _inMenu = false;
+        _inputManager.ClearKeys();
+        
+        //Once map is chosen, create map object for the game
+        _map = new Map(new RecursionMap());
+        _map.CreateMap(this._chosenWidth, this._chosenHeight);
+        _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map from recursion loaded");
+
+        //sets window resolution to match loded map
+        _graphics.PreferredBackBufferWidth = _map.Width * 32;
+        _graphics.PreferredBackBufferHeight = _map.Height * 32;
+        _graphics.ApplyChanges();
+
+        //Pass player object to PlayerSprite
+        PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
+
+        //add player sprite as component to mono game
+
+        Components.Add(playerS);
+    }
+
     private void SetMainMenuKeys()
     {
 
@@ -312,11 +337,11 @@ public class MazeGame : Game
         {
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
             {
-                if(_chosenWidth > 1) { _chosenWidth--; }
+                if(_chosenWidth > 5) { _chosenWidth = _chosenWidth - 2; }
             }
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
             {
-                if (_chosenHeight > 1) { _chosenHeight--; }
+                if (_chosenHeight > 5) { _chosenHeight = _chosenHeight - 2; }
             }
         });
 
@@ -324,11 +349,11 @@ public class MazeGame : Game
         {
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
             {
-                if (_chosenWidth < 20) { _chosenWidth++; }
+                if (_chosenWidth < 21) { _chosenWidth = _chosenWidth + 2; }
             }
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
             {
-                if (_chosenHeight < 20) { _chosenHeight++; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
+                if (_chosenHeight < 20) { _chosenHeight = _chosenHeight + 2; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
             }
         });
 
@@ -337,7 +362,7 @@ public class MazeGame : Game
             switch (_recursionMenuActions[_menuIndex])
             {
                 case RecursionMenuActions.Create:
-                    //this will eventually make the map
+                    initializeRecursionMap();
                     break;
                 case RecursionMenuActions.Return:
                     _menuIndex = 0;
