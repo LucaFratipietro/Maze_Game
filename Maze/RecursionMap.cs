@@ -1,16 +1,19 @@
 ﻿using System;
+using System.Numerics;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.Intrinsics;
 
 namespace Maze
 {
     public class RecursionMap : IMapProvider
     {
-        private Direction[,]? directionGrid;
+        private Direction[,]? _directionGrid;
         private int gridWidth;
         private int gridHeight;
         private List<Direction> possibleDirections = new List<Direction>() { Direction.N, Direction.S, Direction.E, Direction.W };
 
         private static Random rnd = new Random();
+        private List<MapVector> _visited = new List<MapVector>();
         
         public RecursionMap() { }
         public Direction[,] CreateMap(int width, int height)
@@ -22,16 +25,15 @@ namespace Maze
             this.gridWidth = (width - 1) / 2;
             this.gridHeight = (height - 1) / 2;
 
-            this.directionGrid = new Direction[gridHeight, gridWidth];
+            this._directionGrid = new Direction[gridHeight, gridWidth];
 
             //Call recursive Walk function to fill directionGrid
             var randX = rnd.Next(gridWidth);
             var randY = rnd.Next(gridHeight);
-            List<MapVector> visitedPositions = new List<MapVector>() { new MapVector(randX, randY) };
-            Walk(0, visitedPositions);
+            Walk(new MapVector(randX,randY));
 
             //once done walking, return populated grid
-            return this.directionGrid;
+            return this._directionGrid;
             
         }
 
@@ -42,44 +44,48 @@ namespace Maze
         }
 
         //Recusive Walking algorithm that populates the directionGrid
-        private void Walk(int currentIndex, List<MapVector> visitedPositions)
+        private void Walk(MapVector currentVector)
         {
 
-            if (currentIndex < 0)
-            {
-                //once weve returned to the original start position, and have no where to go, return
-                return;
-            }
+            //add vector to private visited list
+            _visited.Add(currentVector);
             //shuffle list of directions
-            List<Direction> shuffleDir = this.possibleDirections.OrderBy(x => Random.Shared.Next()).ToList();
+            possibleDirections = this.possibleDirections.OrderBy(x => rnd.Next()).ToList();
 
-            for (int i = 0; i < shuffleDir.Count; i++)
+            foreach(Direction dir in possibleDirections) 
             {
-                //see if we can move to direction in shuffleDir, if no, move onto next one
-                MapVector nextPosition = visitedPositions[currentIndex] + (MapVector)shuffleDir[i];
-                if (nextPosition.InsideBoundary(this.gridWidth, this.gridHeight))
+                var nextVector = currentVector + (MapVector)dir;
+                var oppositeDir = GetReverseDirection(dir);
+
+                if (nextVector.X >= 0 && nextVector.X < this.gridWidth && nextVector.Y >= 0 && nextVector.Y < this.gridHeight)
                 {
-                    if (!visitedPositions.Contains(nextPosition))
+
+                    if (!_visited.Contains(nextVector))
                     {
-                        visitedPositions.Add(nextPosition);
-                        this.directionGrid[visitedPositions[currentIndex].Y, visitedPositions[currentIndex].X] = this.directionGrid[visitedPositions[currentIndex].Y, visitedPositions[currentIndex].X] | shuffleDir[i];
-                        switch (shuffleDir[i])
-                        {
-                            case Direction.N:
-                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.S; break;
-                            case Direction.S:
-                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.N; break;
-                            case Direction.E:
-                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.W; break;
-                            case Direction.W:
-                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.E; break;
-                        }
-                        Walk(currentIndex + 1, visitedPositions);
+                        _directionGrid[currentVector.Y, currentVector.X] |= dir;
+                        _directionGrid[nextVector.Y, nextVector.X] |= oppositeDir;
+
+                        Walk(nextVector);
                     }
                 }
             }
-            //if none of the 4 directions worked, move back an index and recall Walk2
-            Walk(currentIndex - 1, visitedPositions);
+        }
+        
+        private Direction GetReverseDirection(Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.N:
+                    return Direction.S;
+                case Direction.S:
+                    return Direction.N;
+                case Direction.E:
+                    return Direction.W;
+                case Direction.W:
+                    return Direction.E;
+                default:
+                    return Direction.None;
+            }
         }
     }
 }

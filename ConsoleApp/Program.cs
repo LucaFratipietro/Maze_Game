@@ -13,7 +13,7 @@ namespace Maze
             RecursionMap rMap = new RecursionMap();
             Map map = new Map(rMap);
 
-            map.CreateMap(9, 13);
+            map.CreateMap(7, 7);
             PrintMap(map);
 
             Console.WriteLine("Maps done");
