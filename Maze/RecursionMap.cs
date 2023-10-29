@@ -3,7 +3,7 @@ using System.Runtime.ConstrainedExecution;
 
 namespace Maze
 {
-    public class MazeRecursion : IMapProvider
+    public class RecursionMap : IMapProvider
     {
         private Direction[,]? directionGrid;
         private int gridWidth;
@@ -12,7 +12,7 @@ namespace Maze
 
         private static Random rnd = new Random();
         
-        public MazeRecursion() { }
+        public RecursionMap() { }
         public Direction[,] CreateMap(int width, int height)
         {
             //ensure minimum width and height
@@ -22,7 +22,7 @@ namespace Maze
             this.gridWidth = (width - 1) / 2;
             this.gridHeight = (height - 1) / 2;
 
-            this.directionGrid = new Direction[gridWidth, gridHeight];
+            this.directionGrid = new Direction[gridHeight, gridWidth];
 
             //Call recursive Walk function to fill directionGrid
             var randX = rnd.Next(gridWidth);
@@ -44,6 +44,7 @@ namespace Maze
         //Recusive Walking algorithm that populates the directionGrid
         private void Walk(int currentIndex, List<MapVector> visitedPositions)
         {
+
             if (currentIndex < 0)
             {
                 //once weve returned to the original start position, and have no where to go, return
@@ -52,26 +53,26 @@ namespace Maze
             //shuffle list of directions
             List<Direction> shuffleDir = this.possibleDirections.OrderBy(x => Random.Shared.Next()).ToList();
 
-            for(int i = 0; i < shuffleDir.Count; i++)
+            for (int i = 0; i < shuffleDir.Count; i++)
             {
                 //see if we can move to direction in shuffleDir, if no, move onto next one
                 MapVector nextPosition = visitedPositions[currentIndex] + (MapVector)shuffleDir[i];
-                if(nextPosition.InsideBoundary(this.gridWidth, this.gridHeight))
+                if (nextPosition.InsideBoundary(this.gridWidth, this.gridHeight))
                 {
                     if (!visitedPositions.Contains(nextPosition))
                     {
                         visitedPositions.Add(nextPosition);
-                        this.directionGrid[visitedPositions[currentIndex].X, visitedPositions[currentIndex].Y] = this.directionGrid[visitedPositions[currentIndex].X, visitedPositions[currentIndex].Y] | shuffleDir[i];
+                        this.directionGrid[visitedPositions[currentIndex].Y, visitedPositions[currentIndex].X] = this.directionGrid[visitedPositions[currentIndex].Y, visitedPositions[currentIndex].X] | shuffleDir[i];
                         switch (shuffleDir[i])
                         {
                             case Direction.N:
-                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.S; break;
+                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.S; break;
                             case Direction.S:
-                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.N; break;
+                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.N; break;
                             case Direction.E:
-                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.W; break;
+                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.W; break;
                             case Direction.W:
-                                this.directionGrid[nextPosition.X, nextPosition.Y] = this.directionGrid[nextPosition.X, nextPosition.Y] | Direction.E; break;
+                                this.directionGrid[nextPosition.Y, nextPosition.X] = this.directionGrid[nextPosition.Y, nextPosition.X] | Direction.E; break;
                         }
                         Walk(currentIndex + 1, visitedPositions);
                     }
