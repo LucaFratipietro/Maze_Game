@@ -30,11 +30,11 @@ namespace Maze
             Direction[,] directionGrid = _provider.CreateMap();
 
             //Determine width and height of maze
-            this.Width = (directionGrid.GetLength(1) * 2) + 1; // 9
-            this.Height = (directionGrid.GetLength(0) * 2) + 1; // 7
+            this.Width = (directionGrid.GetLength(1) * 2) + 1;
+            this.Height = (directionGrid.GetLength(0) * 2) + 1; 
 
             //Set this MapGrid to match Height and width of maze
-            this.MapGrid = new Block[this.Width, this.Height]; // CHANGE
+            this.MapGrid = new Block[this.Width, this.Height];
 
             //Set all blocks as solid
             for (int i = 0; i < this.Width; i++)
@@ -141,8 +141,8 @@ namespace Maze
 
                     var dir = directionGrid[directionMapX, directionMapY];
 
-                    //if direction can only go W or N, it is a dead end
-                    if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
+                    //if direction can only go in 1 direction, dead end
+                    if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0 || (dir ^ Direction.E) == 0 || (dir ^ Direction.S) == 0) 
                     {
                         //determine the distance between this point and player position
                         double distance = Math.Sqrt((j - this.Player.StartX) * (j - this.Player.StartX) + (i - this.Player.StartY) * (i - this.Player.StartY));
@@ -167,7 +167,44 @@ namespace Maze
 
         public void CreateMap(int width, int height)
         {
-            throw new NotImplementedException();
+
+            Direction[,] directionGrid = null;
+
+            try
+            {
+                directionGrid = _provider.CreateMap(width, height);
+            }
+            catch (Exception ex) 
+            {
+                Console.WriteLine(ex.Message);
+            }
+           
+            //Determine width and height of maze
+            this.Width = (directionGrid.GetLength(1) * 2) + 1;
+            this.Height = (directionGrid.GetLength(0) * 2) + 1;
+
+            //Set this MapGrid to match Height and width of maze
+            this.MapGrid = new Block[this.Width, this.Height];
+
+            //Set all blocks as solid
+            for (int i = 0; i < this.Width; i++)
+            {
+                for (int j = 0; j < this.Height; j++)
+                {
+                    this.MapGrid[i, j] = Block.Solid;
+                }
+            }
+
+            //loops through coloums and rows and uses directionGrid to determine which blocks are empty
+            setEmptyBlocks(directionGrid);
+
+            // Generates a Player object and tries to place it in a legal positon
+
+            placePlayer();
+
+            //places a goal sufficiently far away from the player at a dead end
+
+            placeEndGoal(directionGrid);
         }
 
         public void SaveDirectionMap(string path)

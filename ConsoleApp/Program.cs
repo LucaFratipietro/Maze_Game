@@ -9,7 +9,16 @@ namespace Maze
         public static void Main(string[] args)
         {
             Console.WriteLine("Welcome to the Map Generator!");
-            Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
+
+            MazeRecursion rMap = new MazeRecursion(3);
+            Map map = new Map(rMap);
+
+            map.CreateMap(5, 5);
+            PrintMap(map);
+
+            Console.WriteLine("Maps done");
+            
+            /*Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
             bool validPath = false;
             while (!validPath)
@@ -43,7 +52,7 @@ namespace Maze
                     Console.WriteLine("Something went wrong with the path, make sure it is in the base project directory and written properly");
                     continue;
                 }
-            }
+            }*/
         }
 
 

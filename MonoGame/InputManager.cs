@@ -55,6 +55,11 @@ namespace MonoGame
             }
         }
 
+        public void ClearKeys()
+        {
+            _handlerKeys = new Dictionary<Keys, Action>();
+        }
+
         private void GetCurrentState()
         {
 
