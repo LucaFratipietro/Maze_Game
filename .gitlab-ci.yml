@@ -25,11 +25,13 @@ deployment:
     before_script:
         - apt-get update
         - apt-get install zip -y
+        - apt-get install libfreetype6 -y
     script:
-        - dotnet publish -c Release -o publish_output
+        - cd MonoGame
+        - dotnet publish -p:PublishDir=.\publish
         - zip -r MonoGame.zip ./publish_output
     artifacts:
         paths:
-            - MonoGame.zip
+            - MonoGame/MonoGame.zip
         expire_in: 2 weeks
 
