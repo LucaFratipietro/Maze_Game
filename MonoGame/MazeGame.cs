@@ -349,11 +349,11 @@ public class MazeGame : Game
         {
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
             {
-                if (_chosenWidth < 21) { _chosenWidth = _chosenWidth + 2; }
+                if (_chosenWidth < 49) { _chosenWidth = _chosenWidth + 2; }
             }
             if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
             {
-                if (_chosenHeight < 20) { _chosenHeight = _chosenHeight + 2; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
+                if (_chosenHeight < 49) { _chosenHeight = _chosenHeight + 2; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
             }
         });
 
