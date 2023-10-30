@@ -141,8 +141,8 @@ namespace Maze
 
                     var dir = directionGrid[directionMapX, directionMapY];
 
-                    //if direction can only go W or N, it is a dead end
-                    if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0)
+                    //if direction can only go in 1 direction, dead end
+                    if ((dir ^ Direction.N) == 0 || (dir ^ Direction.W) == 0 || (dir ^ Direction.E) == 0 || (dir ^ Direction.S) == 0) 
                     {
                         //determine the distance between this point and player position
                         double distance = Math.Sqrt((j - this.Player.StartX) * (j - this.Player.StartX) + (i - this.Player.StartY) * (i - this.Player.StartY));
