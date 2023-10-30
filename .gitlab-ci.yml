@@ -29,7 +29,7 @@ deployment:
     script:
         - cd MonoGame
         - dotnet publish -p:PublishDir=.\publish
-        - zip -r MonoGame.zip ./publish
+        - zip -r MonoGame.zip . -i ./publish
     artifacts:
         paths:
             - MonoGame/MonoGame.zip
