@@ -5,7 +5,7 @@ using System.Runtime.Intrinsics;
 
 namespace Maze
 {
-    public class RecursionMap : IMapProvider
+    public class MazeRecursion : IMapProvider
     {
         private Direction[,]? _directionGrid;
         private int gridWidth;
@@ -15,7 +15,7 @@ namespace Maze
         private static Random rnd = new Random();
         private List<MapVector> _visited = new List<MapVector>();
         
-        public RecursionMap() { }
+        public MazeRecursion() { }
         public Direction[,] CreateMap(int width, int height)
         {
             //ensure minimum width and height
