@@ -29,7 +29,7 @@ deployment:
     script:
         - cd MonoGame
         - ls -al
-        - dotnet publish -c Release -r win-x64 -p:PublishDir=.\publish
+        - dotnet publish -c Release -r win-x64 -p:PublishDir=publish
         - zip -r MonoGame.zip ./publish
     artifacts:
         paths:
