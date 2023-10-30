@@ -8,28 +8,39 @@ namespace Maze
     public class MazeRecursion : IMapProvider
     {
         private Direction[,]? _directionGrid;
-        private int gridWidth;
-        private int gridHeight;
+        private int _gridWidth;
+        private int _gridHeight;
         private List<Direction> possibleDirections = new List<Direction>() { Direction.N, Direction.S, Direction.E, Direction.W };
 
-        private static Random rnd = new Random();
+        private Random _rnd;
         private List<MapVector> _visited = new List<MapVector>();
         
-        public MazeRecursion() { }
+        public MazeRecursion(int? seed) 
+        {   
+            if(seed != null)
+            {
+                _rnd = new Random((int)seed);
+            }
+            else
+            {
+               _rnd = new Random();
+            }
+           
+        }
         public Direction[,] CreateMap(int width, int height)
         {
             //ensure minimum width and height
-            if(width <= 4 || height <= 4) { throw new Exception("Minimum Width and Height of 5"); }
-            if(width % 2 == 0 || height % 2 == 0) { throw new Exception("Must be odd"); }
+            if(width <= 4 || height <= 4) { throw new ArgumentException("Minimum Width and Height of 5"); }
+            if(width % 2 == 0 || height % 2 == 0) { throw new ArgumentException("Must be odd"); }
             
-            this.gridWidth = (width - 1) / 2;
-            this.gridHeight = (height - 1) / 2;
+            this._gridWidth = (width - 1) / 2;
+            this._gridHeight = (height - 1) / 2;
 
-            this._directionGrid = new Direction[gridHeight, gridWidth];
+            this._directionGrid = new Direction[_gridHeight, _gridWidth];
 
             //Call recursive Walk function to fill directionGrid
-            var randX = rnd.Next(gridWidth);
-            var randY = rnd.Next(gridHeight);
+            var randX = _rnd.Next(_gridWidth);
+            var randY = _rnd.Next(_gridHeight);
             Walk(new MapVector(randX,randY));
 
             //once done walking, return populated grid
@@ -39,8 +50,7 @@ namespace Maze
 
         public Direction[,] CreateMap()
         {
-            //just call CreateMap with a static width and height
-            return CreateMap(7, 7);
+            throw new NotImplementedException();
         }
 
         //Recusive Walking algorithm that populates the directionGrid
@@ -50,14 +60,14 @@ namespace Maze
             //add vector to private visited list
             _visited.Add(currentVector);
             //shuffle list of directions
-            possibleDirections = this.possibleDirections.OrderBy(x => rnd.Next()).ToList();
+            possibleDirections = this.possibleDirections.OrderBy(x => _rnd.Next()).ToList();
 
             foreach(Direction dir in possibleDirections) 
             {
                 var nextVector = currentVector + (MapVector)dir;
                 var oppositeDir = GetReverseDirection(dir);
 
-                if (nextVector.X >= 0 && nextVector.X < this.gridWidth && nextVector.Y >= 0 && nextVector.Y < this.gridHeight)
+                if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight)
                 {
 
                     if (!_visited.Contains(nextVector))

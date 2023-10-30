@@ -10,7 +10,7 @@ namespace Maze
         {
             Console.WriteLine("Welcome to the Map Generator!");
 
-            MazeRecursion rMap = new MazeRecursion();
+            MazeRecursion rMap = new MazeRecursion(5);
             Map map = new Map(rMap);
 
             map.CreateMap(7, 7);
