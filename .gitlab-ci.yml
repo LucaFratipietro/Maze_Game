@@ -28,8 +28,9 @@ deployment:
         - apt-get install libfreetype6 -y
     script:
         - cd MonoGame
-        - dotnet publish -p:PublishDir=.\publish
-        - zip -r MonoGame.zip . -i ./publish
+        - ls -al
+        - dotnet publish -c Release -r win-x64 -p:PublishDir=.\publish
+        - zip -r MonoGame.zip ./publish
     artifacts:
         paths:
             - MonoGame/MonoGame.zip
