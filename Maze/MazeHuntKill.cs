@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,12 +31,14 @@ namespace Maze
 
             var randX = _rnd.Next(_gridWidth);
             var randY = _rnd.Next(_gridHeight);
+            MapVector currentPosition = new MapVector(randX, randY);
 
-            //Call Walk
-            Walk(new MapVector(randX, randY));
-
+            //Call Walk until returned vector is null
+            while(currentPosition != null)
+            {
+                currentPosition = Walk(currentPosition);
+            }
             
-
         }
 
         public Direction[,] CreateMap()
@@ -43,7 +46,7 @@ namespace Maze
             throw new NotImplementedException();
         }
 
-        private void Walk(MapVector currentVector)
+        private MapVector Walk(MapVector currentVector)
         {
             //get all possible directions you can walk
             List <Direction> validMovements = new List<Direction>();
@@ -66,7 +69,12 @@ namespace Maze
             if(validMovements.Count > 0)
             {
                 int index = _rnd.Next(validMovements.Count);
+                Direction nextDir = validMovements[index];
+
+
             }
+
+            return null;
 
         }
 
