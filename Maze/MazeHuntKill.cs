@@ -31,23 +31,30 @@ namespace Maze
 
             var randX = _rnd.Next(_gridWidth);
             var randY = _rnd.Next(_gridHeight);
-            MapVector currentPosition = new MapVector(randX, randY);
+            MapVector? currentPosition = new MapVector(randX, randY);
 
             //Call Walk until returned vector is null
             while(currentPosition != null)
             {
                 currentPosition = Walk(currentPosition);
             }
+
+            //begin hunting
+
             
         }
-
+        
         public Direction[,] CreateMap()
         {
             throw new NotImplementedException();
         }
 
-        private MapVector Walk(MapVector currentVector)
+        private MapVector? Walk(MapVector currentVector)
         {
+
+            _visited.Add(currentVector);
+            _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
+
             //get all possible directions you can walk
             List <Direction> validMovements = new List<Direction>();
             foreach(Direction dir in _possibleDirections)
@@ -60,22 +67,16 @@ namespace Maze
 
                     if (!_visited.Contains(nextVector))
                     {
-                        validMovements.Add(dir);
+                        _directionGrid[currentVector.Y, currentVector.X] |= dir;
+                        _directionGrid[nextVector.Y, nextVector.X] |= oppositeDir;
+
+                        return nextVector;
                     }
                 }
             }
-
-            //chose a random direction in the random directions to walk to
-            if(validMovements.Count > 0)
-            {
-                int index = _rnd.Next(validMovements.Count);
-                Direction nextDir = validMovements[index];
-
-
-            }
-
+            
+            //if no direction is valid, return null and begin hunt
             return null;
-
         }
 
         private Direction GetReverseDirection(Direction direction)
