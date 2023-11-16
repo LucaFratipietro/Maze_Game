@@ -16,7 +16,10 @@ namespace Maze
         private List<Direction> _possibleDirections = new List<Direction>() { Direction.N, Direction.S, Direction.E, Direction.W };
         private List<MapVector> _visited = new List<MapVector>();
 
-        private Random _rnd;
+        private Random _rnd = new Random();
+
+
+        public MazeHuntKill() { }
 
         public Direction[,] CreateMap(int width, int height)
         {
@@ -39,8 +42,44 @@ namespace Maze
                 currentPosition = Walk(currentPosition);
             }
 
-            //begin hunting
+            //begin finding a vector to hunt from
+            bool huntDone = false;
+            for(int i = 0; i < _gridHeight; i++)
+            {
+                for(int j = 0; j < _gridWidth; j++)
+                {
 
+                    //if contain not valid direction, check if one of its neighbors has been visited
+                    if (_directionGrid[j, i] == Direction.None)
+                    {
+                        currentPosition = new MapVector(j, i);
+                        _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
+                        foreach (Direction dir in _possibleDirections)
+                        {
+                            var nextVector = currentPosition + (MapVector)dir;
+                            var oppositeDir = GetReverseDirection(dir);
+
+                            if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None) //if it hasnt been visited, connect them and begin the walk
+                            {
+                                _directionGrid[currentPosition.X, currentPosition.Y] |= dir;
+                                _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
+                                huntDone = true;
+                                break;
+                            }
+                        }
+                        if (huntDone)
+                        {
+                            while (currentPosition != null)
+                            {
+                                currentPosition = Walk(currentPosition);
+                            }
+                            huntDone = false;
+                        }
+                    }
+                }
+            }
+
+            return _directionGrid;
             
         }
         
@@ -55,8 +94,6 @@ namespace Maze
             _visited.Add(currentVector);
             _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
 
-            //get all possible directions you can walk
-            List <Direction> validMovements = new List<Direction>();
             foreach(Direction dir in _possibleDirections)
             {
                 var nextVector = currentVector + (MapVector)dir;
@@ -78,6 +115,36 @@ namespace Maze
             //if no direction is valid, return null and begin hunt
             return null;
         }
+
+        private MapVector? Hunt(MapVector currentVector)
+        {
+
+            _visited.Add(currentVector);
+            _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
+
+            
+            foreach (Direction dir in _possibleDirections)
+            {
+                var nextVector = currentVector + (MapVector)dir;
+                var oppositeDir = GetReverseDirection(dir);
+
+                if (nextVector.X >= 1 && nextVector.X < this._gridWidth && nextVector.Y >= 1 && nextVector.Y < this._gridHeight)
+                {
+
+                    if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None)
+                    {
+                        _directionGrid[currentVector.X, currentVector.Y] |= dir;
+                        _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
+
+                        return nextVector;
+                    }
+                }
+            }
+
+            //if no direction is valid, return null and continue hunting
+            return null;
+        }
+    
 
         private Direction GetReverseDirection(Direction direction)
         {
