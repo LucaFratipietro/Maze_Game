@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using forms = System.Windows.Forms;
 using MFile = MazeFromFile.MazeFromFile;
+using MazeHuntKillSpace;
 
 namespace MonoGame;
 

@@ -17,6 +17,7 @@
   </ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\MazeHuntKill\MazeHuntKill.csproj" />
 		<ProjectReference Include="..\Maze\Maze.csproj" />
 	</ItemGroup>
 

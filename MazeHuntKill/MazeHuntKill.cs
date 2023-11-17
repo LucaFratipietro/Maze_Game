@@ -6,9 +6,10 @@ using System.Runtime.CompilerServices;
 using System.Security;
 using System.Text;
 using System.Threading.Tasks;
+using Maze;
 
 [assembly: InternalsVisibleTo("MazeHuntKillTests")]
-namespace Maze
+namespace MazeHuntKillSpace
 {
     internal class MazeHuntKill : IMapProvider
     {

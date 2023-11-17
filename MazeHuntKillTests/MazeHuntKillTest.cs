@@ -1,6 +1,7 @@
 namespace MazeHuntKillTests;
 
 using Maze;
+using MazeHuntKillSpace;
 
 [TestClass]
 public class MazeHuntKillTest
