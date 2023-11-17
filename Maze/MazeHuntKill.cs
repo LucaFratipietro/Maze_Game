@@ -42,9 +42,17 @@ namespace Maze
                 currentPosition = Walk(currentPosition);
             }
 
-            //Once initial walk is done, hutn
-            Hunt();
-                    
+            while (!allVisited())
+            {   
+                currentPosition = HuntImproved();
+                if(currentPosition != null)
+                {
+                    while (currentPosition != null)
+                    {
+                        currentPosition = Walk(currentPosition);
+                    }
+                }      
+            }
 
             return _directionGrid;
             
@@ -83,54 +91,40 @@ namespace Maze
             return null;
         }
 
-        private void Hunt()
+        private MapVector? HuntImproved()
         {
-            //begin finding a vector to hunt from
-            bool huntDone = false;
-            bool allEmpty = false;
 
-            while (!allEmpty)
+            for (int i = 0; i < _gridHeight; i++)
             {
-                for (int i = 0; i < _gridHeight; i++)
+                for (int j = 0; j < _gridWidth; j++)
                 {
-                    for (int j = 0; j < _gridWidth; j++)
+                    //if contain not valid direction, check if one of its neighbors has been visited
+                    if (_directionGrid[i, j] == Direction.None)
                     {
-
-                        //if contain not valid direction, check if one of its neighbors has been visited
-                        if (_directionGrid[j, i] == Direction.None)
+                        MapVector? currentPosition = new MapVector(j, i);
+                        _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
+                        foreach (Direction dir in _possibleDirections)
                         {
-                            MapVector? currentPosition = new MapVector(j, i);
-                            _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
-                            foreach (Direction dir in _possibleDirections)
-                            {
-                                var nextVector = currentPosition + (MapVector)dir;
-                                var oppositeDir = GetReverseDirection(dir);
+                            var nextVector = currentPosition + (MapVector)dir;
+                            var oppositeDir = GetReverseDirection(dir);
 
-                                if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight) //check if nextVector is Valid
-                                {
-                                    if (_directionGrid[nextVector.Y, nextVector.X] != Direction.None) //if it hasnt been visited, connect them and begin the walk
-                                    {
-                                        _directionGrid[currentPosition.Y, currentPosition.X] |= dir;
-                                        _directionGrid[nextVector.Y, nextVector.X] |= oppositeDir;
-                                        huntDone = true;
-                                        break;
-                                    }
-                                }
-                            }
-                            if (huntDone)
+                            if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight) //check if nextVector is Valid
                             {
-                                while (currentPosition != null)
+                                if (_directionGrid[nextVector.Y, nextVector.X] != Direction.None) //if it hasnt been visited, connect them and begin the walk
                                 {
-                                    currentPosition = Walk(currentPosition);
+                                    _directionGrid[currentPosition.Y, currentPosition.X] |= dir;
+                                    _directionGrid[nextVector.Y, nextVector.X] |= oppositeDir;
+                                    return currentPosition;
                                 }
-                                huntDone = false;
                             }
                         }
+                        
                     }
                 }
-                //check if all hit
-                allEmpty = allVisited();
             }
+            //If nothing valid is found to hunt to -- return null
+            return null;
+
         }
 
         //checks if all positions on the direction grid are not None
