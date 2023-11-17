@@ -42,46 +42,9 @@ namespace Maze
                 currentPosition = Walk(currentPosition);
             }
 
-            //begin finding a vector to hunt from
-            bool huntDone = false;
-
-            for(int i = 0; i < _gridHeight; i++)
-            {
-                for(int j = 0; j < _gridWidth; j++)
-                {
-
-                    //if contain not valid direction, check if one of its neighbors has been visited
-                    if (_directionGrid[i, j] == Direction.None)
-                    {
-                        currentPosition = new MapVector(i, j);
-                        _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
-                        foreach (Direction dir in _possibleDirections)
-                        {
-                            var nextVector = currentPosition + (MapVector)dir;
-                            var oppositeDir = GetReverseDirection(dir);
-
-                            if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight) //check if nextVector is Valid
-                            {
-                                if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None) //if it hasnt been visited, connect them and begin the walk
-                                {
-                                    _directionGrid[currentPosition.X, currentPosition.Y] |= dir;
-                                    _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
-                                    huntDone = true;
-                                    break;
-                                }
-                            }
-                        }
-                        if (huntDone)
-                        {
-                            while (currentPosition != null)
-                            {
-                                currentPosition = Walk(currentPosition);
-                            }
-                            huntDone = false;
-                        }
-                    }
-                }
-            }
+            //Once initial walk is done, hutn
+            Hunt();
+                    
 
             return _directionGrid;
             
@@ -118,6 +81,72 @@ namespace Maze
             
             //if no direction is valid, return null and begin hunt
             return null;
+        }
+
+        private void Hunt()
+        {
+            //begin finding a vector to hunt from
+            bool huntDone = false;
+            bool allEmpty = false;
+
+            while (!allEmpty)
+            {
+                for (int i = 0; i < _gridHeight; i++)
+                {
+                    for (int j = 0; j < _gridWidth; j++)
+                    {
+
+                        //if contain not valid direction, check if one of its neighbors has been visited
+                        if (_directionGrid[j, i] == Direction.None)
+                        {
+                            MapVector? currentPosition = new MapVector(j, i);
+                            _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
+                            foreach (Direction dir in _possibleDirections)
+                            {
+                                var nextVector = currentPosition + (MapVector)dir;
+                                var oppositeDir = GetReverseDirection(dir);
+
+                                if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight) //check if nextVector is Valid
+                                {
+                                    if (_directionGrid[nextVector.Y, nextVector.X] != Direction.None) //if it hasnt been visited, connect them and begin the walk
+                                    {
+                                        _directionGrid[currentPosition.Y, currentPosition.X] |= dir;
+                                        _directionGrid[nextVector.Y, nextVector.X] |= oppositeDir;
+                                        huntDone = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (huntDone)
+                            {
+                                while (currentPosition != null)
+                                {
+                                    currentPosition = Walk(currentPosition);
+                                }
+                                huntDone = false;
+                            }
+                        }
+                    }
+                }
+                //check if all hit
+                allEmpty = allVisited();
+            }
+        }
+
+        //checks if all positions on the direction grid are not None
+        private bool allVisited()
+        {
+            for (int i = 0; i < _gridHeight; i++)
+            {
+                for (int j = 0; j < _gridWidth; j++)
+                {
+                    if (_directionGrid[j, i] == Direction.None)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
         }
 
         private Direction GetReverseDirection(Direction direction)
