@@ -13,7 +13,7 @@ namespace Maze
             MazeHuntKill mhk = new MazeHuntKill();
             Map map = new Map(mhk);
 
-            map.CreateMap(9, 9);
+            map.CreateMap(13, 15);
             PrintMap(map);
 
             Console.WriteLine("Maps done");

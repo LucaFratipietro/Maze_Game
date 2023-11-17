@@ -44,27 +44,31 @@ namespace Maze
 
             //begin finding a vector to hunt from
             bool huntDone = false;
+
             for(int i = 0; i < _gridHeight; i++)
             {
                 for(int j = 0; j < _gridWidth; j++)
                 {
 
                     //if contain not valid direction, check if one of its neighbors has been visited
-                    if (_directionGrid[j, i] == Direction.None)
+                    if (_directionGrid[i, j] == Direction.None)
                     {
-                        currentPosition = new MapVector(j, i);
+                        currentPosition = new MapVector(i, j);
                         _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
                         foreach (Direction dir in _possibleDirections)
                         {
                             var nextVector = currentPosition + (MapVector)dir;
                             var oppositeDir = GetReverseDirection(dir);
 
-                            if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None) //if it hasnt been visited, connect them and begin the walk
+                            if (nextVector.X >= 0 && nextVector.X < this._gridWidth && nextVector.Y >= 0 && nextVector.Y < this._gridHeight) //check if nextVector is Valid
                             {
-                                _directionGrid[currentPosition.X, currentPosition.Y] |= dir;
-                                _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
-                                huntDone = true;
-                                break;
+                                if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None) //if it hasnt been visited, connect them and begin the walk
+                                {
+                                    _directionGrid[currentPosition.X, currentPosition.Y] |= dir;
+                                    _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
+                                    huntDone = true;
+                                    break;
+                                }
                             }
                         }
                         if (huntDone)
@@ -115,36 +119,6 @@ namespace Maze
             //if no direction is valid, return null and begin hunt
             return null;
         }
-
-        private MapVector? Hunt(MapVector currentVector)
-        {
-
-            _visited.Add(currentVector);
-            _possibleDirections = this._possibleDirections.OrderBy(x => _rnd.Next()).ToList();
-
-            
-            foreach (Direction dir in _possibleDirections)
-            {
-                var nextVector = currentVector + (MapVector)dir;
-                var oppositeDir = GetReverseDirection(dir);
-
-                if (nextVector.X >= 1 && nextVector.X < this._gridWidth && nextVector.Y >= 1 && nextVector.Y < this._gridHeight)
-                {
-
-                    if (_directionGrid[nextVector.X, nextVector.Y] != Direction.None)
-                    {
-                        _directionGrid[currentVector.X, currentVector.Y] |= dir;
-                        _directionGrid[nextVector.X, nextVector.Y] |= oppositeDir;
-
-                        return nextVector;
-                    }
-                }
-            }
-
-            //if no direction is valid, return null and continue hunting
-            return null;
-        }
-    
 
         private Direction GetReverseDirection(Direction direction)
         {
