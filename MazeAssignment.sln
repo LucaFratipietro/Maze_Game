@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame", "MonoGame\MonoGa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeRecursionTests", "MazeRecursionTests\MazeRecursionTests.csproj", "{FBD5054A-526F-4A63-AB39-01208181E2D4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeHuntKillTests", "MazeHuntKillTests\MazeHuntKillTests.csproj", "{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
