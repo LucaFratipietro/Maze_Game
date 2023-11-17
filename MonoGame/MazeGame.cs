@@ -15,8 +15,8 @@ public class MazeGame : Game
     private static readonly NLog.Logger _logger = NLog.LogManager.GetCurrentClassLogger();
 
     //enum of menuActions
-    private enum MenuActions { File = 1, Recursion = 2, Exit = 3}
-    private enum RecursionMenuActions { Width = 1, Height = 2 , Create = 3, Return = 4}
+    private enum MenuActions { File = 1, Recursion = 2, Hunt = 3, Exit = 4}
+    private enum customMenuActions { Width = 1, Height = 2 , Create = 3, Return = 4}
 
     //loading textures
     private Texture2D _wall;
@@ -27,9 +27,9 @@ public class MazeGame : Game
     private SpriteFont _font;
 
     //needed for menu to function
-    private List<MenuActions> _menuActions = new List<MenuActions>() { MenuActions.File, MenuActions.Recursion, MenuActions.Exit};
+    private List<MenuActions> _menuActions = new List<MenuActions>() { MenuActions.File, MenuActions.Recursion, MenuActions.Hunt, MenuActions.Exit};
     private int _menuIndex = 0;
-    private List<RecursionMenuActions> _recursionMenuActions = new List<RecursionMenuActions>() { RecursionMenuActions.Width, RecursionMenuActions.Height, RecursionMenuActions.Return, RecursionMenuActions.Create};
+    private List<customMenuActions> _customMenuActions = new List<customMenuActions>() { customMenuActions.Width, customMenuActions.Height, customMenuActions.Return, customMenuActions.Create};
     private int _chosenWidth = 5;
     private int _chosenHeight = 5;
 
@@ -37,6 +37,7 @@ public class MazeGame : Game
     private bool _initalMapLoad = false;
     private bool _inMenu = true;
     private bool _inRecursionMenu = false;
+    private bool _inHuntMenu = false;
     private Map _map;
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
@@ -104,6 +105,13 @@ public class MazeGame : Game
             if (_inRecursionMenu)
             {
                 drawRecursionMenu(gameTime);
+                base.Draw(gameTime);
+                return;
+            }
+
+            if (_inHuntMenu)
+            {
+                drawHuntMenu(gameTime);
                 base.Draw(gameTime);
                 return;
             }
@@ -190,23 +198,53 @@ public class MazeGame : Game
         _spriteBatch.DrawString(_font, "Recursion Maze Setup", new Vector2(0, 0), Color.Black);
 
         //loop through list of possible recursionMenuActions
-        for (int i = 0; i < _recursionMenuActions.Count; i++)
+        for (int i = 0; i < _customMenuActions.Count; i++)
         {
             //change color for the fontSprite
             colour = i == _menuIndex ? Color.BurlyWood : Color.Black;
 
-            switch (_recursionMenuActions[i])
+            switch (_customMenuActions[i])
             {
-                case RecursionMenuActions.Width:
-                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString() + "< " + _chosenWidth + " >", new Vector2(0, (i + 1) * 15), colour);
+                case customMenuActions.Width:
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString() + "< " + _chosenWidth + " >", new Vector2(0, (i + 1) * 15), colour);
                     break;
-                case RecursionMenuActions.Height:
-                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString() + "< " + _chosenHeight + " >", new Vector2(0, (i + 1) * 15), colour);
+                case customMenuActions.Height:
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString() + "< " + _chosenHeight + " >", new Vector2(0, (i + 1) * 15), colour);
                     break;
                 default:
-                    _spriteBatch.DrawString(_font, _recursionMenuActions[i].ToString(), new Vector2(0, (i + 1) * 15), colour);
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString(), new Vector2(0, (i + 1) * 15), colour);
                     break;
             } 
+        }
+        _spriteBatch.End();
+    }
+
+    private void drawHuntMenu(GameTime gameTime)
+    {
+        Color colour;
+        GraphicsDevice.Clear(Color.DarkSlateBlue);
+        _spriteBatch.Begin();
+
+        _spriteBatch.DrawString(_font, "Hunt And Kill Maze Setup", new Vector2(0, 0), Color.Black);
+
+        //loop through list of possible recursionMenuActions
+        for (int i = 0; i < _customMenuActions.Count; i++)
+        {
+            //change color for the fontSprite
+            colour = i == _menuIndex ? Color.BurlyWood : Color.Black;
+
+            switch (_customMenuActions[i])
+            {
+                case customMenuActions.Width:
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString() + "< " + _chosenWidth + " >", new Vector2(0, (i + 1) * 15), colour);
+                    break;
+                case customMenuActions.Height:
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString() + "< " + _chosenHeight + " >", new Vector2(0, (i + 1) * 15), colour);
+                    break;
+                default:
+                    _spriteBatch.DrawString(_font, _customMenuActions[i].ToString(), new Vector2(0, (i + 1) * 15), colour);
+                    break;
+            }
         }
         _spriteBatch.End();
     }
@@ -278,6 +316,30 @@ public class MazeGame : Game
         Components.Add(playerS);
     }
 
+    private void initializeHuntMap()
+    {
+        //set isMenu to false so Map is drawn to screen -- and clear all keys in InputManager
+        _inMenu = false;
+        _inputManager.ClearKeys();
+
+        //Once map is chosen, create map object for the game
+        _map = new Map(new MazeHuntKill());
+        _map.CreateMap(this._chosenWidth, this._chosenHeight);
+        _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map from Hunt and Kill loaded");
+
+        //sets window resolution to match loded map
+        _graphics.PreferredBackBufferWidth = _map.Width * 32;
+        _graphics.PreferredBackBufferHeight = _map.Height * 32;
+        _graphics.ApplyChanges();
+
+        //Pass player object to PlayerSprite
+        PlayerSprite playerS = new PlayerSprite((Player)_map.Player, this, _map.Goal);
+
+        //add player sprite as component to mono game
+
+        Components.Add(playerS);
+    }
+
     private void SetMainMenuKeys()
     {
 
@@ -307,7 +369,13 @@ public class MazeGame : Game
                     _menuIndex = 0;
                     _inRecursionMenu = true;
                     //set Keys for new Menu
-                    SetRecursionMenuKeys();
+                    SetSecondMenuKeys();
+                    break;
+                case MenuActions.Hunt:
+                    _menuIndex = 0;
+                    _inHuntMenu = true;
+                    //set Keys for new Menu
+                    SetSecondMenuKeys();
                     break;
                 case MenuActions.Exit:
                     Exit();
@@ -316,30 +384,30 @@ public class MazeGame : Game
         });
     }
 
-    private void SetRecursionMenuKeys()
+    private void SetSecondMenuKeys()
     {
         _inputManager.ClearKeys();
 
         //key arrow up goes up in menu, if already at the top, loop back to the bottom, Down is the reverse
         _inputManager.AddKeyHandler(Keys.Up, () =>
         {
-            if (_menuIndex == 0) { _menuIndex = _recursionMenuActions.Count - 1; return; }
+            if (_menuIndex == 0) { _menuIndex = _customMenuActions.Count - 1; return; }
             _menuIndex--;
         });
 
         _inputManager.AddKeyHandler(Keys.Down, () =>
         {
-            if (_menuIndex == _recursionMenuActions.Count - 1) { _menuIndex = 0; return; }
+            if (_menuIndex == _customMenuActions.Count - 1) { _menuIndex = 0; return; }
             _menuIndex++;
         });
 
         _inputManager.AddKeyHandler(Keys.Left, () =>
         {
-            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
+            if (_customMenuActions[_menuIndex] == customMenuActions.Width)
             {
                 if(_chosenWidth > 5) { _chosenWidth = _chosenWidth - 2; }
             }
-            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
+            if (_customMenuActions[_menuIndex] == customMenuActions.Height)
             {
                 if (_chosenHeight > 5) { _chosenHeight = _chosenHeight - 2; }
             }
@@ -347,11 +415,11 @@ public class MazeGame : Game
 
         _inputManager.AddKeyHandler(Keys.Right, () =>
         {
-            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Width)
+            if (_customMenuActions[_menuIndex] == customMenuActions.Width)
             {
                 if (_chosenWidth < 49) { _chosenWidth = _chosenWidth + 2; }
             }
-            if (_recursionMenuActions[_menuIndex] == RecursionMenuActions.Height)
+            if (_customMenuActions[_menuIndex] == customMenuActions.Height)
             {
                 if (_chosenHeight < 49) { _chosenHeight = _chosenHeight + 2; } //NOTE: MAY CHANGE DEPENDING ON MAX ALLOWABLE WIDTH AND HEIGHT FOR RECURSIVE ALGO
             }
@@ -359,14 +427,22 @@ public class MazeGame : Game
 
         _inputManager.AddKeyHandler(Keys.Enter, () =>
         {
-            switch (_recursionMenuActions[_menuIndex])
+            switch (_customMenuActions[_menuIndex])
             {
-                case RecursionMenuActions.Create:
-                    initializeRecursionMap();
+                case customMenuActions.Create:
+                    if (_inHuntMenu)
+                    {
+                        initializeHuntMap();
+                    }
+                    else
+                    {
+                        initializeRecursionMap();
+                    }
                     break;
-                case RecursionMenuActions.Return:
+                case customMenuActions.Return:
                     _menuIndex = 0;
                     _inRecursionMenu = false;
+                    _inHuntMenu = false;
                     //clear keys for new menu
                     SetMainMenuKeys();
                     break;
