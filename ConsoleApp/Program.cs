@@ -10,10 +10,10 @@ namespace Maze
         {
             Console.WriteLine("Welcome to the Map Generator!");
 
-            MazeRecursion rMap = new MazeRecursion(3);
-            Map map = new Map(rMap);
+            MazeHuntKill mhk = new MazeHuntKill();
+            Map map = new Map(mhk);
 
-            map.CreateMap(5, 5);
+            map.CreateMap(13, 13);
             PrintMap(map);
 
             Console.WriteLine("Maps done");

@@ -3,23 +3,24 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{DDCBD489-53D2-4541-A264-87E349407979}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{DDCBD489-53D2-4541-A264-87E349407979}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze", "Maze\Maze.csproj", "{7CFF24DD-D955-4123-ABCB-55456F43D94B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze", "Maze\Maze.csproj", "{7CFF24DD-D955-4123-ABCB-55456F43D94B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeTests", "MazeTests\MazeTests.csproj", "{E7E08360-68B2-4958-B12D-3840FEC95510}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeTests", "MazeTests\MazeTests.csproj", "{E7E08360-68B2-4958-B12D-3840FEC95510}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MonoGame", "MonoGame\MonoGame.csproj", "{0323F9CF-B7CA-4507-B1B8-FAEA532F7D89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGame", "MonoGame\MonoGame.csproj", "{0323F9CF-B7CA-4507-B1B8-FAEA532F7D89}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeRecursionTests", "MazeRecursionTests\MazeRecursionTests.csproj", "{FBD5054A-526F-4A63-AB39-01208181E2D4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeRecursionTests", "MazeRecursionTests\MazeRecursionTests.csproj", "{FBD5054A-526F-4A63-AB39-01208181E2D4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeHuntKillTests", "MazeHuntKillTests\MazeHuntKillTests.csproj", "{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeHuntKill", "MazeHuntKill\MazeHuntKill.csproj", "{6079BA46-36FD-44CF-9196-CC0A46CA7B93}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{DDCBD489-53D2-4541-A264-87E349407979}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -42,5 +43,19 @@ Global
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBD5054A-526F-4A63-AB39-01208181E2D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4E1E4AD-40EF-4A3C-B60B-3E9AE49BD00D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {18FF15F5-1884-45C7-AE5B-082688A9CF45}
 	EndGlobalSection
 EndGlobal
