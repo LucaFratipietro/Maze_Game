@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Maze
 {
-    public class MazeHuntKill : IMapProvider
+    internal class MazeHuntKill : IMapProvider
     {
         private Direction[,]? _directionGrid;
         private int _gridHeight;
@@ -16,10 +16,19 @@ namespace Maze
         private List<Direction> _possibleDirections = new List<Direction>() { Direction.N, Direction.S, Direction.E, Direction.W };
         private List<MapVector> _visited = new List<MapVector>();
 
-        private Random _rnd = new Random();
+        private Random _rnd;
 
-
-        public MazeHuntKill() { }
+        public MazeHuntKill(int? seed) 
+        {
+            if(seed != null)
+            {
+                _rnd = new Random((int)seed);
+            }
+            else
+            {
+                _rnd = new Random();
+            }
+        }
 
         public Direction[,] CreateMap(int width, int height)
         {

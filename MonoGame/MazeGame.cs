@@ -299,7 +299,7 @@ public class MazeGame : Game
         _inputManager.ClearKeys();
         
         //Once map is chosen, create map object for the game
-        _map = new Map(new MazeRecursion(null));
+        _map = new Map(IMapFactory.MapFactory(null, "Recursion"));
         _map.CreateMap(this._chosenWidth, this._chosenHeight);
         _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map from recursion loaded");
 
@@ -323,7 +323,7 @@ public class MazeGame : Game
         _inputManager.ClearKeys();
 
         //Once map is chosen, create map object for the game
-        _map = new Map(new MazeHuntKill());
+        _map = new Map(IMapFactory.MapFactory(null,"Hunt"));
         _map.CreateMap(this._chosenWidth, this._chosenHeight);
         _logger.Info($"Map Loaded: {_map.Width} x {_map.Height} map from Hunt and Kill loaded");
 
