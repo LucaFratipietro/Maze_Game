@@ -134,7 +134,7 @@ namespace Maze
             {
                 for (int j = 0; j < _gridWidth; j++)
                 {
-                    if (_directionGrid[j, i] == Direction.None)
+                    if (_directionGrid[i, j] == Direction.None)
                     {
                         return false;
                     }
