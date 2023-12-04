@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MazeHuntKillTests", "MazeHu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MazeHuntKill", "MazeHuntKill\MazeHuntKill.csproj", "{6079BA46-36FD-44CF-9196-CC0A46CA7B93}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BenchMarking", "BenchMarking\BenchMarking.csproj", "{B5A033E1-B866-4862-98EB-ADD0B17DF906}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6079BA46-36FD-44CF-9196-CC0A46CA7B93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5A033E1-B866-4862-98EB-ADD0B17DF906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A033E1-B866-4862-98EB-ADD0B17DF906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A033E1-B866-4862-98EB-ADD0B17DF906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A033E1-B866-4862-98EB-ADD0B17DF906}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
