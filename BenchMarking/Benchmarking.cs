@@ -2,6 +2,9 @@
 using Maze;
 using MazeHuntKillSpace;
 
+using System.IO;
+using System.Text;
+
 namespace performance
 {
     public class Benchmarking
@@ -9,12 +12,18 @@ namespace performance
         public static void Main(string[] args)
         {
 
-            //get both IMaps using the factory methods
-            IMapProvider Recmap = IMapFactory.MapFactory(null, "Recursion");
+            //find path to results file, will write to this later
+            string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            string huntFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\result\hunt.csv");
+            string hunt_results_path = Path.GetFullPath(huntFile);
+
+            //find path to results file, will write to this later
+            string recFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\result\rec.csv");
+            string rec_results_path = Path.GetFullPath(recFile);
 
             //first test the hunt algo 
             Console.WriteLine("Hunt Algo Tests starting... \n");
-            for (int i = 0; i < 50; i+= 2)
+            for (int i = 0; i < 100; i += 2)
             {
                 Console.WriteLine($"{i + 5} by {i + 5} tests");
                 int runs = 0;
@@ -22,7 +31,28 @@ namespace performance
                 while (runs < 5)
                 {
                     IMapProvider Huntmap = IMapFactory.MapFactory(null, "Hunt");
-                    TimeSpan span = Timeit(() => { Huntmap.CreateMap(i+5, i+5); });
+                    TimeSpan span = Timeit(() => { Huntmap.CreateMap(i + 5, i + 5); });
+                    results.Add(span.TotalMilliseconds);
+                    runs++;
+                }
+                Console.WriteLine("Average timespan: " + results.Average() + "\n");
+
+                //append data to csv
+                string dataToAppend = CSVStringBuilder($"{i + 5}", $"{results.Average()}");
+                WriteToFile(hunt_results_path, dataToAppend);
+            }
+
+            // then recursive algo
+            Console.WriteLine("Recursive Algo Tests starting... \n");
+            for (int i = 0; i < 100; i += 2)
+            {
+                Console.WriteLine($"{i + 5} by {i + 5} tests");
+                int runs = 0;
+                List<double> results = new List<double>();
+                while (runs < 5)
+                {
+                    IMapProvider Huntmap = IMapFactory.MapFactory(null, "Recursion");
+                    TimeSpan span = Timeit(() => { Huntmap.CreateMap(i + 5, i + 5); });
                     results.Add(span.TotalMilliseconds);
                     runs++;
                 }
@@ -30,7 +60,7 @@ namespace performance
             }
         }
 
-        public static TimeSpan Timeit(Action bench)
+        private static TimeSpan Timeit(Action bench)
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -40,9 +70,20 @@ namespace performance
             return timeTaken;
         }
 
-        private void WriteToFile(string path, string data)
+        private static void WriteToFile(string path, string data)
         {
+            Console.WriteLine("WHAT IS TRYING TO BE PUT IN THE CSV");
+            Console.WriteLine(data);
+        }
 
+        private static string CSVStringBuilder(string size, string average)
+        {
+            String separator = ",";
+            StringBuilder output = new StringBuilder();
+            String[] headings = { size, average };
+            output.AppendLine(string.Join(separator, headings));
+
+            return output.ToString();
         }
 
     }
