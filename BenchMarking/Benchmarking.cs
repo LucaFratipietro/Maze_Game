@@ -27,7 +27,7 @@ namespace performance
 
             //first test the hunt algo 
             Console.WriteLine("Hunt Algo Tests starting... \n");
-            for (int i = 0; i < 100; i += 2)
+            for (int i = 0; i < 200; i += 2)
             {
                 Console.WriteLine($"{i + 5} by {i + 5} tests");
                 int runs = 0;
@@ -48,7 +48,7 @@ namespace performance
 
             // then recursive algo
             Console.WriteLine("Recursive Algo Tests starting... \n");
-            for (int i = 0; i < 100; i += 2)
+            for (int i = 0; i < 200; i += 2)
             {
                 Console.WriteLine($"{i + 5} by {i + 5} tests");
                 int runs = 0;
