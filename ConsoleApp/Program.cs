@@ -1,4 +1,5 @@
 ﻿using MazeFromFile;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -10,14 +11,23 @@ namespace Maze
         {
             Console.WriteLine("Welcome to the Map Generator!");
 
-            MazeHuntKill mhk = new MazeHuntKill();
-            Map map = new Map(mhk);
+            List<double> results = new List<double>();
+            for (int i = 0; i < 10; i++)
+            {
+                IMapProvider imap = new MazeRecImprovments(null);
+                var timer = new Stopwatch();
+                timer.Start();
+                imap.CreateMap(151, 151);
+                timer.Stop();
+                TimeSpan timeTaken = timer.Elapsed;
 
-            map.CreateMap(13, 13);
-            PrintMap(map);
-
-            Console.WriteLine("Maps done");
+                results.Add(timeTaken.TotalMilliseconds);
+            }
             
+         
+            Console.WriteLine("Maps done");
+            Console.WriteLine("Time: " + results.Average());
+
             /*Console.WriteLine("Please type the full name of the map you want to load (with file exstension, and place it in the root folder of this project to make this a bit easier) ");
 
             bool validPath = false;

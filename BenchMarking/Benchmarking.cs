@@ -55,8 +55,8 @@ namespace performance
                 List<double> results = new List<double>();
                 while (runs < 5)
                 {
-                    IMapProvider Huntmap = IMapFactory.MapFactory(null, "Recursion");
-                    TimeSpan span = Timeit(() => { Huntmap.CreateMap(i + 5, i + 5); });
+                    IMapProvider recMap = new MazeRecImprovments(null);
+                    TimeSpan span = Timeit(() => { recMap.CreateMap(i + 5, i + 5); });
                     results.Add(span.TotalMilliseconds);
                     runs++;
                 }
