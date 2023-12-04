@@ -14,12 +14,16 @@ namespace performance
 
             //find path to results file, will write to this later
             string sCurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-            string huntFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\result\hunt.csv");
+            string huntFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\results\hunt.csv");
             string hunt_results_path = Path.GetFullPath(huntFile);
 
             //find path to results file, will write to this later
-            string recFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\result\rec.csv");
+            string recFile = System.IO.Path.Combine(sCurrentDirectory, $@"..\..\..\..\BenchMarking\results\rec.csv");
             string rec_results_path = Path.GetFullPath(recFile);
+
+            //delete files if they already exist
+            DeleteFile(hunt_results_path);
+            DeleteFile(rec_results_path);
 
             //first test the hunt algo 
             Console.WriteLine("Hunt Algo Tests starting... \n");
@@ -57,6 +61,10 @@ namespace performance
                     runs++;
                 }
                 Console.WriteLine("Average timespan: " + results.Average() + "\n");
+
+                //append data to csv
+                string dataToAppend = CSVStringBuilder($"{i + 5}", $"{results.Average()}");
+                WriteToFile(rec_results_path, dataToAppend);
             }
         }
 
@@ -72,8 +80,16 @@ namespace performance
 
         private static void WriteToFile(string path, string data)
         {
-            Console.WriteLine("WHAT IS TRYING TO BE PUT IN THE CSV");
-            Console.WriteLine(data);
+            try
+            {
+                File.AppendAllText(path, data);
+                Console.WriteLine("Data succesfully added to csv");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Data could not be written to the CSV file.");
+                return;
+            }
         }
 
         private static string CSVStringBuilder(string size, string average)
@@ -84,6 +100,25 @@ namespace performance
             output.AppendLine(string.Join(separator, headings));
 
             return output.ToString();
+        }
+
+        private static void DeleteFile(string path)
+        {
+            try
+            {
+                // Check if file exists with its full path
+                if (File.Exists(path))
+                {
+                    // If file found, delete it
+                    File.Delete(path);
+                    Console.WriteLine("File deleted.");
+                }
+                else Console.WriteLine("File not found");
+            }
+            catch (IOException ioExp)
+            {
+                Console.WriteLine(ioExp.Message);
+            }
         }
 
     }
